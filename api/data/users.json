@@ -1,0 +1,43 @@
+[
+   {
+      "id": 1,
+      "email": "ayrton@gmail.com",
+      "username": "ayds",
+      "password": "123456",
+      "firstname": "Ayrton",
+      "lastname": "Da Silva",
+      "profilepic": "url",
+      "role": "god",
+      "cart": 
+         [
+            {
+               "product": 1,
+               "quantity": 10
+            },
+            {
+               "product": 2,
+               "quantity": 5
+            }
+         ]
+   },
+   {
+      "id": 1,
+      "email": "ayrton@gmail.com",
+      "username": "ayds",
+      "password": "123456",
+      "firstname": "Ayrton",
+      "lastname": "Da Silva",
+      "profilepic": "url",
+      "role": "admin"
+   },
+   {
+      "id": 1,
+      "email": "ayrton@gmail.com",
+      "username": "ayds",
+      "password": "123456",
+      "firstname": "Ayrton",
+      "lastname": "Da Silva",
+      "profilepic": "url",
+      "role": "guest"
+   }
+]

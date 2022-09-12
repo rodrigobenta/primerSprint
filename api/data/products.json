@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "title": "Naipes",
+    "price": 1200,
+    "description": "",
+    "image": "url",
+    "gallery": [{
+      "picture_id": 1,
+      "picture_url": "url",
+      "description": ""
+    }],
+    "category": "Juegos",
+    "mostwanted": false,
+    "stock": 10
+  },
+  {
+    "id": 1,
+    "title": "Torta",
+    "price": 500,
+    "description": "",
+    "image": "url",
+    "gallery": [{
+      "picture_id": 2,
+      "picture_url": "url"
+    }],
+    "category": "Comida",
+    "mostwanted": true,
+    "stock": 10
+  }
+  
+]
