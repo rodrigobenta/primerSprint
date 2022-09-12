@@ -4,6 +4,7 @@ const usersRoutes = require('./api/routes/usersRoutes');
 const productsRoutes = require('./api/routes/productsRoutes');
 const cartsRouter = require('./api/routes/cartsRoutes');
 const login = require('./api/controllers/userController')
+const picturesRoutes = require('./api/router/picturesRoutes');
 
 // const swaggerUi = require('swagger-ui-express');
 // const YAML = require('yamljs');
@@ -20,8 +21,9 @@ app.use(express.json());
 app.use('api/v1/users', usersRoutes);
 app.use('api/v1/products', productsRoutes);
 app.use('api/v1/carts', cartsRouter);
+app.use('api/v1/pictures', picturesRoutes);
 
-
+//ALIAS:
 app.post('api/v1/login', login);
 
 app.listen(process.env.PORT, () => {
