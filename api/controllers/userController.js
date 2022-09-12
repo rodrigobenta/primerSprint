@@ -65,19 +65,17 @@ const listUserById = (req,res) => {
 const createUser = (req,res) => {
     
     const { id, email, username, password, firstname, lastname, role} = req.body;
+    const newUser = {id, email, username, password, firstname, lastname, role};
 
     if(req.profilepic){
-        const profilepic = req.profilepic;
-        const newUser = {id, email, username, password, firstname, lastname, profilepic, role};
-    }else{
-        const newUser = {id, email, username, password, firstname, lastname, role};
+        let profilepic = req.body.profilepic;
+        newUser = {id, email, username, password, firstname, lastname, profilepic, role};
     }
     try {
         let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         let users = JSON.parse(dbUser);
         users.push(newUser);
-        fs.writeFileSync('db.json', JSON.stringify(users));
-        
+        fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(users));
         res.status(201).json(newUser);
     } catch (error) {
         res.status(500).json({ Mensaje: 'Server error.' });
@@ -85,10 +83,27 @@ const createUser = (req,res) => {
 }
 
 const editUserById = (req,res) => {
+
+    let { id, ...propiedades} = req.body;
+    let newEl;
+
+    try{
     let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
     let dataParsed = JSON.parse(data);
 
-    const userLogin = dataParsed.find(dataParsed => dataParsed.email == req.body.email && dataParsed.password == req.body.password);
+    
+    const dataUpdate = dataParsed.map(elem => {
+        if (Number(elem.id) == Number(id)){
+            newEl = {id, ...propiedades};
+            return newEl;
+        }
+        else return elem;
+    })
+    fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(dataUpdate));
+    res.status(201).json(dataUpdate);
+    } catch(error){
+        res.status(500).json({ Mensaje: 'Server error.' });
+    }
 }
 
 const deleteUserById = (req,res) => {
@@ -98,4 +113,10 @@ const deleteUserById = (req,res) => {
     const userLogin = dataParsed.find(dataParsed => dataParsed.email == req.body.email && dataParsed.password == req.body.password);
 }
 
-module.exports = {login,listUsers,listUserById,createUser,editUserById,deleteUserById};
+module.exports = {login,
+    listUsers,
+    listUserById,
+    createUser,
+    editUserById,
+    deleteUserById
+};
