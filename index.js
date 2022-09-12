@@ -1,20 +1,20 @@
 require('dotenv').config();
 const express = require('express');
-const usersRoutes = require('./api/router/usersRoutes');
-const productsRoutes = require('./api/router/productsRoutes');
-const cartsRouter = require('./api/router/cartsRoutes');
+const usersRoutes = require('./api/routes/usersRoutes');
+const productsRoutes = require('./api/routes/productsRoutes');
+const cartsRouter = require('./api/routes/cartsRoutes');
 const login = require('./api/controllers/userController')
 
-const swaggerUi = require('swagger-ui-express');
-const YAML = require('yamljs');
-const swaggerDocument = YAML.load('./swagger.yaml');
-const cors = require('cors');
+// const swaggerUi = require('swagger-ui-express');
+// const YAML = require('yamljs');
+// const swaggerDocument = YAML.load('./swagger.yaml');
+// const cors = require('cors');
 
 const app = express();
 
 app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use(cors());
+//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//app.use(cors());
 
 //RUTAS A MODIFICAR.......
 app.use('api/v1/users', usersRoutes);
