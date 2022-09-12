@@ -1,9 +1,19 @@
 const express = require('express');
-const {login, show, create, edit, deleteU} = require('../controller/userController');
+const router = express.Router();
+const {listUsers, listUserById, createUser, editUserById, deleteUserById} = require('../controller/userController');
 const verify = require('../middleware/verifyJWT');
-//const middlewareUser = require(../)
 
-router.get('/login', verify, login);
-router.post('/create', verify, create);
-router.put('/edit/:id', verify, edit);
-router.delete('/delete/:id', verify, deleteU);
+
+//RUTAS DE USUARIOS:
+router.get('/', verify, listUsers);
+router.get('/:id', verify, listUserById);
+router.post('/', verify, createUser);
+router.put('/:id', verify, editUserById);
+router.delete('/:id', verify, deleteUserById);
+
+
+//RUTAS DE CARTS:
+router.get('/:id/cart', verify, listUserById);
+router.put('/:id/cart', verify, editUserById);
+
+module.exports = router;

@@ -1,7 +1,8 @@
 require('dotenv').config();
 const express = require('express');
-const usersRoutes = require('./routes/usersRoutes');
-const productsRoutes = require('./routes/productsRoutes');
+const usersRoutes = require('./api/router/usersRoutes');
+const productsRoutes = require('./api/router/productsRoutes');
+const cartsRouter = require('./api/router/cartsRoutes');
 
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
@@ -15,8 +16,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 
 //RUTAS A MODIFICAR.......
-app.use('/login', usersRoutes);
-app.use('/products', productsRoutes);
+app.use('api/v1/users', usersRoutes);
+app.use('api/v1/products', productsRoutes);
+app.use('api/v1/carts', cartsRouter);
 
 
 app.listen(process.env.PORT, () => {
