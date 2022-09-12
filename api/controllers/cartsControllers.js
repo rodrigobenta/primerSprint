@@ -11,7 +11,6 @@ function getDataU(direccion){
         let data = fs.readFileSync(direccion, 'utf-8');
         data = JSON.parse(data);
         return data;
-
     } catch (error) {
         console.log("error en carritos get data, al leer el json");
         return error;
@@ -34,6 +33,7 @@ function indiceUsuario(usuarioID) {
     
 }
 
+/////////////////////////////////////////////////////////////////////////
 //busca y trae el carrito de el usuario determinado...(el id existe)
 function getCart(usuarioID){
     
@@ -43,7 +43,6 @@ function getCart(usuarioID){
     let carrito = usuario.cart;
     return carrito;
 }//getcart
-
 
 ////////////////////////////////////////////////////////////////////////////////////////
 // devuelve el carrito del usuario identificado con ID
@@ -63,14 +62,11 @@ const cartOfId = (req, res) => {
     }///fin del if
 };
 
-
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 //actualizar el carrito del usuario dado
 const updateCart = (req, res) => {
 
 try {
-    
     let id = Number(req.params.id);
     dataUsers = getDataU(direcionBaseUsuarios);
     if (0 < id && id < dataUsers.length) {
@@ -78,10 +74,7 @@ try {
         let carrito = getCart(id);
 
         if (carrito!= null){
-
             let {productID, quantityNueva} = req.body;//DUDA
-            
-            
             let carritoNuevo = carrito.map(iter => {
                 if (iter.product == productID){
                     iter.quantity= quantityNueva;
@@ -103,14 +96,12 @@ try {
             res.status(200).json({
                 mensaje:"OK",
                 dataUsers,
-
             })
         }
         else{
             //no existe el carrito 404 nofoundd
             res.status(404).json("Not Found");
         }
-    
     }
     else{
         //no esta el usuario
@@ -123,4 +114,4 @@ try {
     };
 }//updatecarrito recontraineficientejaja
 
-module.exports = { cartOfId, updateCart };
+module.exports = { cartOfId, updateCart};
