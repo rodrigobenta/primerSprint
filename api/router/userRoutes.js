@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {listUsers, listUserById, createUser, editUserById, deleteUserById} = require('../controller/userController');
+const {listUsers, listUserById, createUser, editUserById, deleteUserById, login} = require('../controller/userController');
 const verify = require('../middleware/verifyJWT');
 
 
@@ -10,6 +10,7 @@ router.get('/:id', verify, listUserById);
 router.post('/', verify, createUser);
 router.put('/:id', verify, editUserById);
 router.delete('/:id', verify, deleteUserById);
+router.post('/login', login);
 
 
 //RUTAS DE CARTS:

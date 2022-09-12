@@ -3,6 +3,7 @@ const express = require('express');
 const usersRoutes = require('./api/router/usersRoutes');
 const productsRoutes = require('./api/router/productsRoutes');
 const cartsRouter = require('./api/router/cartsRoutes');
+const login = require('./api/controllers/userController')
 
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
@@ -20,6 +21,8 @@ app.use('api/v1/users', usersRoutes);
 app.use('api/v1/products', productsRoutes);
 app.use('api/v1/carts', cartsRouter);
 
+
+app.post('api/v1/login', login);
 
 app.listen(process.env.PORT, () => {
     console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
