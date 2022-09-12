@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const {listUsers, listUserById, createUser, editUserById, deleteUserById, login} = require('../controller/userController');
+const {login,listUsers, listUserById, createUser, editUserById, deleteUserById,} = require('../controller/userController');
 const verify = require('../middleware/verifyJWT');
 
 
 //RUTAS DE USUARIOS:
-router.get('/', verify, listUsers);
+router.get('/', verify, listUsers); 
 router.get('/:id', verify, listUserById);
-router.post('/', verify, createUser);
+router.post('/', createUser);
 router.put('/:id', verify, editUserById);
 router.delete('/:id', verify, deleteUserById);
 router.post('/login', login);
