@@ -100,6 +100,7 @@ const listMostWantedProduct = (req, res) => {
 }
 
 const createProduct = (req, res) => {
+
     let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
     let dataParsed = JSON.parse(data);
     let dataPictures = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');

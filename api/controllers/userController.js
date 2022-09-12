@@ -2,16 +2,22 @@ const fs = require('fs');
 const jwt = require('../../helpers/generateJWT')
 
 const login = async (req,res) => {
+
+
     try {
+        console.log("anda");
         let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         data = JSON.parse(data);
-        const userLogin = data.find(data => data.username == req.body.username && data.password == req.body.password);
 
+        const userLogin = data.find(data => data.username == req.body.username && data.password == req.body.password);
+            console.log(userLogin);
         if(!userLogin) res.status(500).json({
             msg: "Server error"
         })
         else {
+            console.log("h..")
             const token = await jwt(userLogin);
+            console.log("h")
             userLogin.password = '';
                 res.status(200).json({
                 success: true,
