@@ -5,83 +5,141 @@ const jwt = require('../../helpers/generateJWT')
 
 const listProduct = (req, res) => {
 
-
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
 
-
-
         res.status(200).json(dataParsed);
-
     } catch (error) {
         console.log(error);
         res.status(500).json({
+            mensaje: 'Server error'
+        });
+    }
 
+}
+
+const listProductByID = (req, res) => {
+
+    try {
+        const { id } = req.params;
+        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+        let dataParsed = JSON.parse(data);
+
+        const dataToShow = dataParsed.find(elm => elm.id === Number(id));
+
+        if (!dataToShow) {
+            return res.status(404).json({
+                mensaje: 'Not found (el producto no existe)'
+            });
+        }
+
+        res.status(200).json(dataToShow);
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
             mensaje: 'server error'
         });
     }
 
 }
 
+const listProductByKeyword = (req, res) => {
 
-
-const listProductByID = (req, res) => {
-
-    const { id } = req.params;
-   
     try {
+        const { keyword } = req.query.name;
+        console.log(keyword);
+        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+        let dataParsed = JSON.parse(data);
+        const dataToShow = dataParsed.find(elm => elm.title === Number(id));
+
+        let newList =[];
+
+        dataParsed.forEach(element => {
+
+        if(element.title === keyword || element.description === keyword|| element.category === keyword ){
+                newList.push(element)
+        }
+        });
+
+        res.status(200).json(newList);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            mensaje: 'server error'
+        });
+    }
+
+}
+
+const listMostWantedProduct = (req, res) => {
+    console.log('h');
+    try {
+        
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
 
-
-        const dataToShow = dataParsed.find(elm => elm.id === Number(id));
-
+        const dataToShow = dataParsed.filter(elm => elm.mostwanted == "true");
 
         if (!dataToShow) {
-
             return res.status(404).json({
                 mensaje: 'Not found (el producto no existe)'
             });
         }
-
-      
 
         res.status(200).json(dataToShow);
 
     } catch (error) {
         console.log(error);
         res.status(500).json({
-
-            mensaje: 'server error'
+            mensaje: 'Server error'
         });
     }
 
 }
 
-
 const createProduct = (req, res) => {
-
-    const nuevoProducto = {
-        id,
-        title,
-        price,
-        description,
-        image,
-        gallery,
-        category,
-        mostwanted,
-        stock
-    }
+    let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+    let dataParsed = JSON.parse(data);
+    let dataPictures = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
+    let dataParsedPictures = JSON.parse(dataPictures);
 
     try {
-        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
-        let dataParsed = JSON.parse(data);
+        let id=0;
+        if(dataParsed.length>0){
+            for(let i = 0; i< dataParsed.length ; i++){
+                    if(id<dataParsed[i].id) id = dataParsed[i].id;
+            }
+        }
+        else id = 0;
+        id = id+1;
 
+        let { title, price, description, image, gallery, category, mostwanted, stock} = req.body;
+        if(!stock) stock = 0;
+
+        let arrayDePicture = [];
+        for(let i=0; i<gallery.length; i++){
+            let findObject;
+            findObject = dataParsedPictures.find(dataP => dataP.picture_id == gallery[i]);
+            arrayDePicture.push(findObject);
+        }
+
+        let nuevoProducto = {
+            id,
+            title,
+            price,
+            description,
+            image,
+            arrayDePicture, //gallery property para el array de pictures.
+            category,
+            mostwanted,
+            stock
+        }
         dataParsed.push(nuevoProducto);
 
         fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(dataParsed));
-   
+
 
         res.status(201).json({ nuevoProducto });
     } catch (error) {
@@ -98,29 +156,23 @@ const createProduct = (req, res) => {
 
 
 const editProduct = (req, res) => {
-   
 
     const { id, ...restoDeElementos } = req.body;
     const { idProduct } = req.params;
 
     console.log(restoDeElementos);
 
-    //404?
-
     try {
         const dataToParse = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         const data = JSON.parse(dataToParse);
 
+        let newEl;
         const dataUpdate = data.map(product => {
 
             console.log(idProduct, product.id);
 
             if (product.id == Number(idProduct)) {
-
-              
-
-                const newEl = { ...product, ...restoDeElementos };
-
+                newEl = { ...product, ...restoDeElementos };
                 return newEl;
 
             } else {
@@ -129,123 +181,41 @@ const editProduct = (req, res) => {
         });
 
         fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(dataUpdate));
-        res.status(200).json(dataUpdate);
+        res.status(200).json(newEl);
 
     } catch (error) {
-
-      
         res.status(500).json({
             mensaje: 'Server error'
         });
     }
 }
 
-const listProductByKeyword = (req, res) => {
-
-
-    const { keyword } = req.params;
-   
-    try {
-        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
-        let dataParsed = JSON.parse(data);
-
-
-        const dataToShow = dataParsed.find(elm => elm.title === Number(id));
-
-        let newList =[];
-
-        dataParsed 
-
-        dataParsed.forEach(element => {
-
-            if(element.title === keyword || element.description === keyword|| element.category === keyword ){
-
-                    newList.push(element)
-            }
-            
-        });
-
-      
-
-        res.status(200).json(newList);
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-
-            mensaje: 'server error'
-        });
-    }
-
-}
-
-const listMostWantedProduct = (req, res) => {
-
-    try {
-        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
-        let dataParsed = JSON.parse(data);
-
-        const dataToShow = dataParsed.filter(elm => elm.mostwanted === true);
-
-        if (!dataToShow) {
-
-            return res.status(404).json({
-                mensaje: 'Not found (el producto no existe)'
-            });
-        }
-
-        res.status(200).json(dataToShow);
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-
-            mensaje: 'server error'
-        });
-    }
-
-}
-
-
-
 const deleteProduct = (req, res) => {
+    try {
+        const { id } = req.params;
+        let dataToParse = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+        let data = JSON.parse(dataToParse);
 
-   const { id } = req.params;
+        let oldData = data.filter(el => el.id === Number(id));//obj eliminado para mostrar
 
-   try {
-       const dataToParse = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
-       const data = JSON.parse(dataToParse);
-
-       const oldData = data.filter(el => el.id === Number(id));//obj eliminado para mostrar
-
-        if(oldData){
+        if(!oldData){
             res.status(404).json({
-                mensaje: 'Not found'
+                mensaje: 'Producto no encontrado'
             });
-
         }
-       const newData = data.filter(el => el.id !== Number(id)); // esto siempre con const
+        const newData = data.filter(el => el.id !== Number(id)); // esto siempre con const
 
-   
+        fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(newData));
 
+        res.status(200).json({
+            mensaje: `Producto eliminado con exito ${oldData}`
+        });
+    } catch (error) {
+        res.status(500).json({
+            mensaje: 'Server error'
+        });
+    }
 
-
-       fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(newData));
-       //res.send('Archivo eliminado con exito');
-
-       res.status(200).json({
-           mensaje: `Archivo eliminado con exito ${oldData}`
-       });
-
-   } catch (error) {
-     
-
-       res.status(500).json({
-           mensaje: 'Server error'
-       });
-
-   }
- 
 }
 
 module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, createProduct, editProduct, deleteProduct };
