@@ -62,18 +62,6 @@ const listProductByID = (req, res) => {
 
 const createProduct = (req, res) => {
 
-
-    const { title, price, id,description,image,gallery,category, mostwanted,stock} = req.body;// desestructurar
-    const name = req.name;
-
-    if (!title || !price || !id || !image || !gallery || !category || !mostwanted || !stock) {
-        // return res.send('Para crear el producto se necesitan nombre, precio e id');
-        return res.status(200).json({
-            mensaje: 'No puede haber elemntos vacios'
-        });
-
-    }
-
     const nuevoProducto = {
         id,
         title,
@@ -109,7 +97,7 @@ const createProduct = (req, res) => {
 }
 
 
-const editroduct = (req, res) => {
+const editProduct = (req, res) => {
    
 
     const { id, ...restoDeElementos } = req.body;
@@ -191,7 +179,7 @@ const listProductByKeyword = (req, res) => {
 
 }
 
-const listProductMostwated = (req, res) => {
+const listMostWantedProduct = (req, res) => {
 
 
    
@@ -266,4 +254,4 @@ const deleteProduct = (req, res) => {
  
 }
 
-module.exports = { listProduct,listProductByID ,listProductByKeyword, listProductMostwated, createProduct, editroduct, deleteProduct };
+module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, createProduct, editProduct, deleteProduct };

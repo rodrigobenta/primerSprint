@@ -1,12 +1,16 @@
 const express = require('express');
-const {create, edit, deleteP} = require('/Users/rodrigoandresbentancor/Documents/Visual Studio Code Projects/22-primerSprint/api/controllers/productController.js');
+const {listProduct,listProductByID, listMostWantedProduct, createProduct, editProduct, deleteProduct} = require('../controllers/productController');
 const verify = require('../middleware/verifyJWT');
-//const middlewareUser = require(../)
+const {verifyCreateEdit, verifyRoleCreateDelete,verifyRoleEdit} = require('../middleware/productMiddleware');
 const router = express.Router();
 
 
-router.post('/create', verify, create);
-router.put('/edit/:id', verify, edit);
-router.delete('/delete/:id', verify, deleteP);
+router.get('/', verify, listProduct);
+router.get('/:id', verify, listProductByID);
+router.get('/mostwanted', verify, listMostWantedProduct);
+
+router.post('/create', verify, verifyRoleCreateDelete, verifyCreateEdit, createProduct);
+router.put('/edit/:id', verify, verifyRoleEdit, verifyCreateEdit, editProduct);
+router.delete('/delete/:id', verify, verifyRoleCreateDelete, deleteProduct);
 
 module.exports = router;

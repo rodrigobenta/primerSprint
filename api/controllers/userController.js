@@ -1,7 +1,6 @@
 const fs = require('fs');
 const jwt = require('../../helpers/generateJWT')
 
-
 const login = async (req,res) => {
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
@@ -99,4 +98,4 @@ const deleteUserById = (req,res) => {
     const userLogin = dataParsed.find(dataParsed => dataParsed.email == req.body.email && dataParsed.password == req.body.password);
 }
 
-module.exports = {listUsers,listUserById,createUser,editUserById,deleteUserById};
+module.exports = {login,listUsers,listUserById,createUser,editUserById,deleteUserById};
