@@ -15,7 +15,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 
 //RUTAS A MODIFICAR.......
-app.use('/login', usersRoutes);
+app.use('/users', usersRoutes);
 app.use('/products', productsRoutes);
 
 
