@@ -47,7 +47,7 @@ const updateCart = (req, res) => {
 
         }
         else{
-            //no existe el carrito 404 nofound
+            //no existe el carrito 404 nofoundd
         }
 
     }
