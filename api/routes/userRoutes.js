@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {login,listUsers, listUserById, createUser, editUserById, deleteUserById,} = require('../controller/userController');
+const {login,listUsers, listUserById, createUser, editUserById, deleteUserById,} = require('../controllers/userController');
 const verify = require('../middleware/verifyJWT');
 
 
