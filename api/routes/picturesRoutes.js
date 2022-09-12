@@ -4,10 +4,10 @@ const {listPictures, listPictureById, createPicture, editPicture, deletePicture}
 const router = express.Router();
 
 //RUTAS PARA PICTURES:
-router.get('/', verify, listPictures);
-router.get('/:id', verify, listPictureById);
-router.post('/', verify, createPicture);
-router.put('/:id', verify, editPicture);
-router.delete('/:id', verify, deletePicture);
+router.get('/', listPictures);
+router.get('/:id', listPictureById);
+router.post('/create', createPicture);
+router.put('/edit/:IdPictures', editPicture);
+router.delete('/delete/:id', deletePicture);
 
 module.exports = router;

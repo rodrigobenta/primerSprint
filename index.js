@@ -15,7 +15,7 @@ app.use('/api/v1/products', productsRoutes);
 app.use('/api/v1/pictures', picturesRoutes);
 
 //ALIAS:
-app.post('api/v1/login', login);
+app.post('/api/v1/login', login);
 
 app.listen(process.env.PORT, () => {
     console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);

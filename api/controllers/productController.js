@@ -62,6 +62,8 @@ const listProductByID = (req, res) => {
 
 const createProduct = (req, res) => {
 
+    const { title, price,description,image,gallery,category,mostwanted,stock, id } = req.body;// desestructurar
+
     const nuevoProducto = {
         id,
         title,
@@ -143,7 +145,9 @@ const editProduct = (req, res) => {
 const listProductByKeyword = (req, res) => {
 
 
-    const { keyword } = req.params;
+    const { keyword } = req.body;
+ 
+
    
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
