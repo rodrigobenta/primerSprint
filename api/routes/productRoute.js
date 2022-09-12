@@ -10,7 +10,7 @@ router.get('/:id', verify, listProductByID);
 router.get('/mostwanted', verify, listMostWantedProduct);
 
 router.post('/create', verify, verifyRoleCreateDelete, verifyCreateEdit, createProduct);
-router.put('/edit/:id', verify, verifyRoleEdit, verifyCreateEdit, editProduct);
+router.put('/edit/:id', verify, verifyRoleEdit, editProduct);
 router.delete('/delete/:id', verify, verifyRoleCreateDelete, deleteProduct);
 
 module.exports = router;

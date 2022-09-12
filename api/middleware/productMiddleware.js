@@ -31,7 +31,6 @@ const verifyRoleCreateDelete = (req,res,next) => {
     }
 }
 
-
 const verifyRoleEdit = (req,res,next) => {
     try {
         let role = req.role;

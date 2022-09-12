@@ -181,15 +181,11 @@ const listProductByKeyword = (req, res) => {
 
 const listMostWantedProduct = (req, res) => {
 
-
-   
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
 
-
-        const dataToShow = dataParsed.find(elm => elm.mostwanted === true);
-
+        const dataToShow = dataParsed.filter(elm => elm.mostwanted === true);
 
         if (!dataToShow) {
 
@@ -197,8 +193,6 @@ const listMostWantedProduct = (req, res) => {
                 mensaje: 'Not found (el producto no existe)'
             });
         }
-
-      
 
         res.status(200).json(dataToShow);
 

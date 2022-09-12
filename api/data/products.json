@@ -6,9 +6,6 @@
     "description": "",
     "image": "url",
     "gallery": [{
-      "picture_id": 1,
-      "picture_url": "url",
-      "description": ""
     }],
     "category": "Juegos",
     "mostwanted": false,
@@ -21,8 +18,6 @@
     "description": "",
     "image": "url",
     "gallery": [{
-      "picture_id": 2,
-      "picture_url": "url"
     }],
     "category": "Comida",
     "mostwanted": true,
