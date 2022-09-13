@@ -1,1 +1,54 @@
-[{"id":1,"email":"ayrton@gmail.com","username":"ayds","password":"123456","firstname":"Ayrton","lastname":"Da Silva","profilepic":"url","role":"god","cart":[{"product":1,"quantity":10},{"product":2,"quantity":5}]},{"id":2,"email":"rodrigo@gmail.com","username":"rodrigo","password":"1234567","firstname":"Rodrigo","lastname":"Gonzalez","profilepic":"url","role":"admin"},{"id":3,"email":"marcelo@gmail.com","username":"marcelo","password":"123456","firstname":"Marcelo","lastname":"Silva","profilepic":"url","role":"guest"},{"id":4,"email":"matias@gmail.com","username":"matias","password":"123456","firstname":"matias","lastname":"Bidarte","profilepic":"url","role":"guest"},{"id":5,"email":"joaquin@gmail.com","username":"alberto","firstname":"joaquin","lastname":"gonzales","role":"guest"}]
+[
+  {
+    "id": 1,
+    "email": "ayrton@gmail.com",
+    "username": "ayds",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "profilepic": "url",
+    "role": "god",
+    "cart": [
+      { "product": 1, "quantity": 10 },
+      { "product": 2, "quantity": 5 }
+    ]
+  },
+  {
+    "id": 2,
+    "email": "rodrigo@gmail.com",
+    "username": "rodrigo",
+    "password": "1234567",
+    "firstname": "Rodrigo",
+    "lastname": "Gonzalez",
+    "profilepic": "url",
+    "role": "admin"
+  },
+  {
+    "id": 3,
+    "email": "marcelo@gmail.com",
+    "username": "marcelo",
+    "password": "123456",
+    "firstname": "Marcelo",
+    "lastname": "Silva",
+    "profilepic": "url",
+    "role": "guest"
+  },
+  {
+    "id": 4,
+    "email": "matias@gmail.com",
+    "username": "matias",
+    "password": "123456",
+    "firstname": "matias",
+    "lastname": "Bidarte",
+    "profilepic": "url",
+    "role": "guest"
+  },
+  {
+    "id": 5,
+    "email": "joaquin@gmail.com",
+    "username": "alberto",
+    "firstname": "joaquin",
+    "lastname": "gonzales",
+    "role": "guest"
+  }
+]
