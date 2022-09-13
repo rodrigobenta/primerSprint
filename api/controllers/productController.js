@@ -47,28 +47,18 @@ const listProductByID = (req, res) => {
 const listProductByKeyword = (req, res) => {
 
     try {
-
-        let   key = req.query.q;
-
-        console.log(key);
-   
-
+        let key = req.query.q;
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
 
-       // const dataToShow = dataParsed.find(elm => elm.title === Number(id));
-
         let newList =[];
-
         dataParsed.forEach(element => {
-
-        if(element.title.toLowerCase() === key.toLowerCase() || element.description.toLowerCase() === key.toLowerCase()|| element.category.toLowerCase() === key.toLowerCase() ){
-                newList.push(element)
-        }
+            if(element.title.toLowerCase() === key.toLowerCase() || element.description.toLowerCase() === key.toLowerCase()|| element.category.toLowerCase() === key.toLowerCase() ){
+                    newList.push(element)
+            }
         });
 
         res.status(200).json(newList);
-
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -86,6 +76,37 @@ const listMostWantedProduct = (req, res) => {
         let dataParsed = JSON.parse(data);
 
         const dataToShow = dataParsed.filter(elm => elm.mostwanted == "true");
+
+        if (!dataToShow) {
+            return res.status(404).json({
+                mensaje: 'Not found (el producto no existe)'
+            });
+        }
+
+        res.status(200).json(dataToShow);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            mensaje: 'Server error'
+        });
+    }
+
+}
+
+const listCategory = (req, res) => {
+
+    let   name = req.query.name;
+
+    console.log(name);
+
+    console.log('h');
+    try {
+        
+        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+        let dataParsed = JSON.parse(data);
+
+        const dataToShow = dataParsed.filter(elm => elm.category.toLowerCase() == name.toLowerCase());
 
         if (!dataToShow) {
             return res.status(404).json({
@@ -160,9 +181,7 @@ const createProduct = (req, res) => {
     }
 }
 
-
 const editProduct = (req, res) => {
-
     const { id, ...restoDeElementos } = req.body;
     const { idProduct } = req.params;
 
@@ -221,4 +240,4 @@ const deleteProduct = (req, res) => {
 
 }
 
-module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, createProduct, editProduct, deleteProduct };
+module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, listCategory, createProduct, editProduct, deleteProduct};
