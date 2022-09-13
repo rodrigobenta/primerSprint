@@ -1,6 +1,5 @@
 const fs = require("fs");
-const jwt = require("../../helpers/generateJWT");
-const users = require("../data.users.json");
+
 //direccion
 const direcionBaseUsuarios= process.env.RUTA_DB_USER;
 const ayrtonMode = true; //
@@ -50,16 +49,18 @@ const cartOfId = (req, res) => {
     let id = Number(req.params.id);
     let usuarios = getDataU(direcionBaseUsuarios);
 
-    if (0 < id && id < usuarios.length) {
-        let carrito = getCart(id);
+    usuarios.forEach(element => {
+        if(element.id == id){
+            let carrito = getCart(id);
+            res.status(200).json({
+                    mensaje: "OK",
+                    carrito});
+        } else {
+            //id fuera de rango
+            res.status(500).json("Server error")
+        }///fin del if
 
-        res.status(200).json({
-                mensaje: "OK",
-                carrito});
-    } else {
-        //id fuera de rango
-        res.status(500).json("server error")
-    }///fin del if
+    })    
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
