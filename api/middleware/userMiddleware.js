@@ -2,7 +2,7 @@
 
 const createUserVerify = (req,res,next) =>{
     let { id, email, username, password, firstname, lastname, profilepic, role} = req.body;
-    if(!id || !email || !username || !password || !firstname || !lastname) 
+    if(!email || !username || !password || !firstname || !lastname) 
         return res.status(400).json({Mensaje: 'Para crear un usuario debe contener todos los elementos'});
     if(!role)
         req.body.role = 'guest';

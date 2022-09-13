@@ -5,10 +5,26 @@ const { verifyCreateEditPictures, verifyByID } = require('../middleware/pictures
 const router = express.Router();
 
 //RUTAS PARA PICTURES:
-router.get('/', verify,listPictures);
-router.get('/:id' ,verify,listPictureById);
-router.post('/create',verify,verifyCreateEditPictures ,createPicture);
-router.put('/edit/:IdPictures',verify,verifyCreateEditPictures ,editPicture);
-router.delete('/delete/:id',verify ,deletePicture);
+router.get('/', verify, listPictures);
+router.get('/:id' , verify,listPictureById);
+router.post('/',verify,verifyCreateEditPictures ,createPicture);
+router.put('/:id',verify,verifyCreateEditPictures ,editPicture);
+router.delete('/:id',verify ,deletePicture);
+
+
+router.get('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
+
+router.put('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
+
+router.post('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
+router.delete('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
 
 module.exports = router;

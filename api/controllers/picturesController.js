@@ -4,16 +4,31 @@ const fs = require('fs');
 const listPictures = (req, res) => {
 
     try {
-        let data = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
-        let dataParsed = JSON.parse(data);
-
-        res.status(200).json(dataParsed);
+        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+        let dataParsedProducts = JSON.parse(data);
+        if(req.params.id){
+            const {id} = req.params; //se llama product porque es el nombre del query 
+            let findObject;
+            if(findObject = dataParsedProducts.find(el => el.id == id)){
+                let pictures = findObject.gallery;
+                pictures ? res.status(200).json({pictures}) : res.status(404).json({msg: 'No existen fotos en galeria'});
+            }
+            else res.status(404).json({msg: 'No existe el producto indicado'});
+        }
+        else{
+            const {product} = req.query; //se llama product porque es el nombre del query 
+            let findObject;
+            if(findObject = dataParsedProducts.find(el => el.id == product)){
+                let pictures = findObject.gallery;
+                pictures ? res.status(200).json({pictures}) : res.status(404).json({msg: 'No existen fotos en galeria'});
+            }
+            else res.status(404).json({msg: 'No existe el producto indicado'});
+        }
     } catch (error) {
-        res.status(500).json({
-            mensaje: 'server error'
-        });
+        res.status(500).json({msg: 'Server error'})
     }
 
+    
 
 };
 
@@ -41,7 +56,21 @@ const listPictureById = (req, res) => {
 };
 
 const createPicture = (req, res) => {
-    const { picture_id, picture_url, description } = req.body;// desestructurar
+    let data = fs.readFileSync(process.env.RUTA_DB_PICTURES,'utf-8');
+    let dataParsed = JSON.parse(data);
+
+    let { picture_id, picture_url, description } = req.body;// desestructurar
+    
+    let id=0;
+    if(dataParsed.length>0){
+        for(let i = 0; i< dataParsed.length ; i++){
+                if(id<dataParsed[i].picture_id) id = dataParsed[i].picture_id;
+        }
+    }
+    else id = 0;
+    id = id+1;
+    
+    picture_id = id;
 
     const nuevoPictures = {
         picture_id,
@@ -68,33 +97,25 @@ const createPicture = (req, res) => {
 
 const editPicture = (req, res) => {
 
-    const { id, ...restoDeElementos } = req.body;
-    const { IdPictures } = req.params;
-
-    console.log(restoDeElementos);
+    const { picture_id, ...restoDeElementos } = req.body;
+    const { id } = req.params;
 
     try {
         const dataToParse = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
         const data = JSON.parse(dataToParse);
 
-        const dataUpdate = data.map(product => {
-
-            console.log(product.picture_id, Number(IdPictures));
-
-            if (product.picture_id == Number(IdPictures)) {
-
-                console.log("114")
-
-                const newEl = { ...product, ...restoDeElementos };
-
+        let newEl;
+        const dataUpdate = data.map(picture => {
+            if (picture.picture_id == Number(id)) {
+                newEl = { ...picture, ...restoDeElementos };
                 return newEl;
             } else {
-                return product;
+                return picture;
             }
         });
 
         fs.writeFileSync(process.env.RUTA_DB_PICTURES, JSON.stringify(dataUpdate));
-        res.status(200).json(dataUpdate);
+        res.status(200).json(newEl);
 
     } catch (error) {
         res.status(500).json({
@@ -106,27 +127,19 @@ const editPicture = (req, res) => {
 const deletePicture = (req, res) => {
    const { id } = req.params;
    try {
-       const dataToParse = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
-       const data = JSON.parse(dataToParse);
+        const dataToParse = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
+        const data = JSON.parse(dataToParse);
 
-       const oldData = data.filter(el => el.picture_id === Number(id));//obj eliminado para mostrar
-        console.log(oldData)
-       const newData = data.filter(el => el.picture_id !== Number(id)); // esto siempre con const
-       console.log(newData)
+        const oldData = data.find(el => el.picture_id === Number(id));//obj eliminado para mostrar
+        //rearmamos el array sin el producto eliminado/
+        const newData = data.filter(el => el.picture_id !== Number(id)); // esto siempre con const
 
-   
-       if (!dataToShow) {
-        return res.status(404).json({
-            mensaje: 'Not found (el picturs no existe)'
-        });
-        }
+        fs.writeFileSync(process.env.RUTA_DB_PICTURES, JSON.stringify(newData));
+        //res.send('Archivo eliminado con exito');
 
-       fs.writeFileSync(process.env.RUTA_DB_PICTURES, JSON.stringify(newData));
-       //res.send('Archivo eliminado con exito');
-
-       res.status(200).json({
-            ok: "eliminado con exito",
-           mensaje:  oldData
+        res.status(200).json({
+            ok: "Imagen eliminada con exito",
+            mensaje:  oldData
        });
 
    } catch (error) {

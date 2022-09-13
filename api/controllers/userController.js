@@ -28,7 +28,7 @@ const login = async (req,res) => {
                 })
         }
     } catch (error) {
-        res.status(404).json({
+        res.status(500).json({
             msg: "Error interno"
         })
     }
@@ -67,8 +67,19 @@ const listUserById = (req,res) => {
 }
 
 const createUser = (req,res) => {
-    
-    const { id, email, username, password, firstname, lastname, role} = req.body;
+    let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
+    let dataParsed = JSON.parse(data);
+    const {email, username, password, firstname, lastname, role} = req.body;
+
+    let id = 0;
+        if(dataParsed.length>0){
+            for(let i = 0; i< dataParsed.length ; i++){
+                    if(id<dataParsed[i].id) id = dataParsed[i].id;
+            }
+        }
+        else id = 0;
+        id = id+1;
+
     const newUser = {id, email, username, password, firstname, lastname, role};
 
     if(req.profilepic){

@@ -5,7 +5,7 @@
     "price": 1200,
     "description": "",
     "image": "url",
-    "gallery": [{}],
+    "gallery": [{ "picture_id": 1, "picture_url": "url", "description": "" }],
     "category": "Juegos",
     "mostwanted": "false",
     "stock": 10
@@ -16,33 +16,20 @@
     "price": 200,
     "description": "h",
     "image": "url",
-    "arrayDePicture": [
-      { "picture_id": 1, "picture_url": "url", "description": "" }
-    ],
+    "gallery": [{ "picture_id": 1, "picture_url": "url", "description": "" }],
     "category": "Fruta",
     "mostwanted": "true",
     "stock": 10
   },
   {
     "id": 3,
-    "title": "Limon",
-    "price": 200,
-    "description": "h",
-    "image": "url",
-    "gallery": [1, 2],
-    "category": "Fruta",
-    "mostwanted": "false",
-    "stock": 10
-  },
-  {
-    "id": 4,
-    "title": "Limon",
-    "price": 200,
-    "description": "h",
-    "image": "url",
+    "title": "Fideo moñitosssss",
+    "price": 60,
+    "description": "Blancos",
+    "image": "URL DE LA IMAGEN",
     "gallery": [{ "picture_id": 1, "picture_url": "url", "description": "" }],
-    "category": "Fruta",
-    "mostwanted": "false",
-    "stock": 10
+    "category": "Comida",
+    "mostwanted": true,
+    "stock": 0
   }
 ]

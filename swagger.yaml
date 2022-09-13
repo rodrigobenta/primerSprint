@@ -1,0 +1,246 @@
+openapi: 3.0.0
+info:
+  title: Mi API
+  version: 1.0.0
+  description: |-
+    Esta es mi API.
+servers:
+  - url: http://localhost:3000/
+    description: Entorno Desarrollo
+    
+tags:
+  - name: usuarios
+    description: Todos los endpoints de usuarios
+  - name: productos
+    description: Todos los endpoints de productos
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /api/v1/users/login/:
+    post:
+      tags: 
+        - usuarios
+      summary: Login al sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              
+      responses: 
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  userLogin:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      username:
+                        type: string
+                  token:
+                    type: string
+        '404':
+          description: No se encuentra el usuario
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string                  
+  
+  /api/v1/users/:
+    get:
+      tags: 
+        - usuarios
+      summary: Lista los usuarios
+      security:
+        - bearerAuth: []
+      
+      responses: 
+        '200':
+          description: Listado de usuarios
+          content:
+            application/json:
+              schema:
+                properties:
+                  list:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      email:
+                        type: string
+                      username:
+                        type: string
+                      password:
+                        type: string
+                      firstname:
+                        type: string
+                      lastname:
+                        type: string
+                      profilepic:
+                        type: string
+                      role:
+                        type: string
+                      cart:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            product:
+                              type: number
+                            quantity:
+                              type: number
+                              
+                      
+        '400':
+          description: Elementos faltantes para crear un usuario
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje:
+                    type: string
+        
+        '401':
+          description: No posee los permisos para acceder a la funcionalidad
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje:
+                    type: string
+        
+        '500':
+          description: User server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje:
+                    type: string
+
+
+  /products/edit/{id}:
+    put:
+      tags: 
+        - productos
+      summary: Edita un producto
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Edita producto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                nombre:
+                  type: string
+                precio:
+                  type: number
+                
+      
+      responses: 
+        '200':
+          description: Producto editado con exito
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                  objectEdit:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      nombre:
+                        type: string
+                      precio:
+                        type: number
+                      
+        '401':
+          description: Error al editar un producto
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                  ok:
+                    type: boolean
+
+  /products/delete/{id}:
+    delete:
+      tags: 
+        - productos
+      summary: Elimina un producto
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Borrar producto
+      
+      responses: 
+        '200':
+          description: Producto borrado con exito
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                  objectDeleted:
+                    type: object
+                  username:
+                    type: string
+                      
+        '400':
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                    
+        '500':
+          description: Error al eliminar el producto
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                  ok:
+                    type: boolean

@@ -23,7 +23,7 @@ const verifyCreateEdit = (req,res,next) => {
 const verifyRoleCreateDelete = (req,res,next) => {
     try {
         let role = req.role;
-        if(role === 'guest' || role === 'admin') res.status(401).json({msg: 'No tiene permisos'});
+        if(role === 'guest' || role === 'admin') res.status(401).json({msg: 'No tiene permisos para crear o eliminar productos'});
         else next();
     } catch (error) {
         res.status(500).json({msg: 'Server error'});
@@ -33,7 +33,7 @@ const verifyRoleCreateDelete = (req,res,next) => {
 const verifyRoleEdit = (req,res,next) => {
     try {
         let role = req.role;
-        if(role === 'guest') res.status(401).json({msg: 'No tiene permisos'});
+        if(role == 'guest') res.status(401).json({msg: 'No tiene permisos para editar productos'});
         else next();
     } catch (error) {
         res.status(500).json({msg: 'Server error'});

@@ -9,7 +9,18 @@ const listProduct = (req, res) => {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
 
-        res.status(200).json(dataParsed);
+        const {category} = req.query;
+
+        if(!category) res.status(200).json(dataParsed);
+        else{
+        const dataToShow = dataParsed.filter(elm => elm.category.toLowerCase() == category.toLowerCase());
+            if (!dataToShow) {
+                return res.status(404).json({
+                    mensaje: 'Not found (el producto no existe)'
+                });
+            }
+            else res.status(200).json({dataToShow});
+        }
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -94,37 +105,6 @@ const listMostWantedProduct = (req, res) => {
 
 }
 
-const listCategory = (req, res) => {
-
-    let   name = req.query.name;
-
-    console.log(name);
-
-    console.log('h');
-    try {
-        
-        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
-        let dataParsed = JSON.parse(data);
-
-        const dataToShow = dataParsed.filter(elm => elm.category.toLowerCase() == name.toLowerCase());
-
-        if (!dataToShow) {
-            return res.status(404).json({
-                mensaje: 'Not found (el producto no existe)'
-            });
-        }
-
-        res.status(200).json(dataToShow);
-
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({
-            mensaje: 'Server error'
-        });
-    }
-
-}
-
 const createProduct = (req, res) => {
 
     let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
@@ -186,19 +166,29 @@ const editProduct = (req, res) => {
     const { id, ...restoDeElementos } = req.body;
     const { idProduct } = req.params;
 
-    console.log(restoDeElementos);
+    //console.log(restoDeElementos);
 
     try {
         const dataToParse = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         const data = JSON.parse(dataToParse);
 
+        let dataPictures = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
+        let dataParsedPictures = JSON.parse(dataPictures);
         let newEl;
-        const dataUpdate = data.map(product => {
-            //console.log(idProduct, product.id);
-            if (product.id == Number(idProduct)) {
-                newEl = { ...product, ...restoDeElementos };
-                return newEl;
 
+        const dataUpdate = data.map(product => {
+            if (product.id == Number(idProduct)) {
+                let arrayDePicture = [];
+                for(let i=0; i<restoDeElementos.gallery.length; i++){
+                    let findObject;
+                    findObject = dataParsedPictures.find(dataP => dataP.picture_id == restoDeElementos.gallery[i]);
+                    if(findObject) arrayDePicture.push(findObject);
+                }
+                restoDeElementos.gallery = [...arrayDePicture];
+                
+                newEl = { ...product, ...restoDeElementos };
+                
+                return newEl;
             } else {
                 return product;
             }
@@ -231,7 +221,8 @@ const deleteProduct = (req, res) => {
         fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(newData));
 
         res.status(200).json({
-            mensaje: `Producto eliminado con exito ${oldData}`
+            mensaje: 'Producto eliminado con exito',
+            oldData
         });
     } catch (error) {
         res.status(500).json({
@@ -241,4 +232,4 @@ const deleteProduct = (req, res) => {
 
 }
 
-module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, listCategory, createProduct, editProduct, deleteProduct};
+module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, createProduct, editProduct, deleteProduct};
