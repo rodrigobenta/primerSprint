@@ -149,16 +149,17 @@ const createProduct = (req, res) => {
         for(let i=0; i<gallery.length; i++){
             let findObject;
             findObject = dataParsedPictures.find(dataP => dataP.picture_id == gallery[i]);
-            arrayDePicture.push(findObject);
+            console.log(findObject);
+            if(findObject) arrayDePicture.push(findObject);
         }
-
+        gallery = [...arrayDePicture];
         let nuevoProducto = {
             id,
             title,
             price,
             description,
             image,
-            arrayDePicture, //gallery property para el array de pictures.
+            gallery, //gallery property para el array de pictures.
             category,
             mostwanted,
             stock

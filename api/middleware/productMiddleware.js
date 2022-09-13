@@ -24,7 +24,7 @@ const verifyRoleCreateDelete = (req,res,next) => {
     try {
         let role = req.role;
         if(role === 'guest' || role === 'admin') res.status(401).json({msg: 'No tiene permisos'});
-        next();
+        else next();
     } catch (error) {
         res.status(500).json({msg: 'Server error'});
     }
