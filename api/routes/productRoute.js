@@ -5,8 +5,8 @@ const {verifyCreateEdit, verifyRoleCreateDelete,verifyRoleEdit} = require('../mi
 const router = express.Router();
 
 
-router.get('/', verify, listProduct);
-router.get('/keyword', verify, listProductByKeyword);
+router.get('/', listProduct);
+router.get('/search/', listProductByKeyword);
 router.get('/mostwanted', verify, listMostWantedProduct);
 router.get('/:id', verify, listProductByID);
 

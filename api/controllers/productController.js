@@ -47,17 +47,22 @@ const listProductByID = (req, res) => {
 const listProductByKeyword = (req, res) => {
 
     try {
-        const { keyword } = req.query.name;
-        console.log(keyword);
+
+        let   key = req.query.q;
+
+        console.log(key);
+   
+
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
-        const dataToShow = dataParsed.find(elm => elm.title === Number(id));
+
+       // const dataToShow = dataParsed.find(elm => elm.title === Number(id));
 
         let newList =[];
 
         dataParsed.forEach(element => {
 
-        if(element.title === keyword || element.description === keyword|| element.category === keyword ){
+        if(element.title.toLowerCase() === key.toLowerCase() || element.description.toLowerCase() === key.toLowerCase()|| element.category.toLowerCase() === key.toLowerCase() ){
                 newList.push(element)
         }
         });
