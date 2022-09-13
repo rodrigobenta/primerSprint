@@ -104,6 +104,39 @@ const listMostWantedProduct = (req, res) => {
 
 }
 
+
+
+const listCategory = (req, res) => {
+
+    let   name = req.query.name;
+
+    console.log(name);
+
+    console.log('h');
+    try {
+        
+        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+        let dataParsed = JSON.parse(data);
+
+        const dataToShow = dataParsed.filter(elm => elm.category.toLowerCase() == name.toLowerCase());
+
+        if (!dataToShow) {
+            return res.status(404).json({
+                mensaje: 'Not found (el producto no existe)'
+            });
+        }
+
+        res.status(200).json(dataToShow);
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            mensaje: 'Server error'
+        });
+    }
+
+}
+
 const createProduct = (req, res) => {
 
     let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
