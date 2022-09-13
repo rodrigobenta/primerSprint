@@ -94,32 +94,54 @@ const editUserById = (req,res) => {
     let newEl;
 
     try{
-    let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
-    let dataParsed = JSON.parse(data);
+        let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
+        let users = JSON.parse(dbUser);
 
-    
-    const dataUpdate = dataParsed.map(elem => {
-        if (Number(elem.id) == Number(id)){
-            newEl = {id, ...propiedades};
-            return newEl;
+        let userEdited = users.filter(el => el.id === Number(id));
+
+        if(userEdited.length > 0) {
+            const usersUpdate = users.map(elem => {
+            if (Number(elem.id) == Number(id)){
+                newEl = {id, ...propiedades};
+                return newEl;
+            }
+            else return elem;
+            })
+            fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(usersUpdate));
+            res.status(200).json(newEl);
+        }else{
+            return res.status(404).json({ Mensaje: 'El usuario no existe.'})
         }
-        else return elem;
-    })
-    fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(dataUpdate));
-    res.status(201).json(dataUpdate);
+
     } catch(error){
         res.status(500).json({ Mensaje: 'Server error.' });
     }
 }
 
 const deleteUserById = (req,res) => {
-    let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
-    let dataParsed = JSON.parse(data);
+    let id = Number(req.params.id);
 
-    const userLogin = dataParsed.find(dataParsed => dataParsed.email == req.body.email && dataParsed.password == req.body.password);
+    try {
+        let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
+        let users = JSON.parse(dbUser);
+
+        let userDeleted = users.filter(el => el.id === Number(id));
+        
+        if (userDeleted.length > 0){
+            let newUsers = users.filter(el => el.id !== Number(id));
+            fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(newUsers));
+            res.status(200).json({userDeleted})
+        }else{
+            return res.status(404).json({ Mensaje: 'El usuario no existe.'})
+        }
+    } catch (error) {
+        res.status(500).json({ Mensaje: 'Server error.' });
+    }
+    
 }
 
-module.exports = {login,
+module.exports = {
+    login,
     listUsers,
     listUserById,
     createUser,

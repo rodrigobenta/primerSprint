@@ -17,6 +17,10 @@ app.use('/api/v1/pictures', picturesRoutes);
 //ALIAS:
 app.post('/api/v1/login', login);
 
+app.get('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
+
 app.listen(process.env.PORT, () => {
     console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);
 });

@@ -12,8 +12,9 @@ const verifyJWT = (req, res, next) => {
         //const { userName, userRole} = jwt.verify(token, process.env.JWT_PASS);
         const payload = jwt.verify(token, process.env.JWT_PASS);
         //extraemos el username del payload del token,y al asignarlo al request, se pasa a la otra clase.
+
         req.role = payload.role;
-        req.idBd = payload.idBd;
+        req.id = payload.id;
 
         next();
     } catch (error) {
