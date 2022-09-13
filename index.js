@@ -17,9 +17,26 @@ app.use('/api/v1/pictures', picturesRoutes);
 //ALIAS:
 app.post('/api/v1/login', login);
 
+
+
+// control de error en parametro
+
 app.get('/*', (req,res)=>{
     res.status(400).json({ Mensaje: 'Bad Request.'})
 })
+
+
+app.put('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
+
+app.post('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
+app.delete('/*', (req,res)=>{
+    res.status(400).json({ Mensaje: 'Bad Request.'})
+})
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Servidor corriendo en el puerto ${process.env.PORT}`);

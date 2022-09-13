@@ -81,9 +81,7 @@ const createPicture = (req, res) => {
         res.status(201).json({ nuevoPictures });
     } catch (error) {
         console.log(error);
-        res.status(400).json({
-            mensaje: 'Bad request'
-        });
+     
         res.status(500).json({
             mensaje: 'Server error'
         });
@@ -150,6 +148,13 @@ const deletePicture = (req, res) => {
        console.log(newData)
 
    
+       if (!dataToShow) {
+
+        return res.status(404).json({
+            mensaje: 'Not found (el picturs no existe)'
+        });
+    }
+
 
 
 
