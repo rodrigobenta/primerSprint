@@ -89,11 +89,10 @@ const createUser = (req,res) => {
 }
 
 const editUserById = (req,res) => {
-
     let { id, ...propiedades} = req.body;
     let newEl;
-
     try{
+        
         let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         let users = JSON.parse(dbUser);
 

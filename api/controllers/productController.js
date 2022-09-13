@@ -169,9 +169,7 @@ const editProduct = (req, res) => {
 
         let newEl;
         const dataUpdate = data.map(product => {
-
-            console.log(idProduct, product.id);
-
+            //console.log(idProduct, product.id);
             if (product.id == Number(idProduct)) {
                 newEl = { ...product, ...restoDeElementos };
                 return newEl;
@@ -183,7 +181,6 @@ const editProduct = (req, res) => {
 
         fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(dataUpdate));
         res.status(200).json(newEl);
-
     } catch (error) {
         res.status(500).json({
             mensaje: 'Server error'
