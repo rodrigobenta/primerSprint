@@ -11,7 +11,6 @@ function getDataU(direccion){
         data = JSON.parse(data);
         return data;
     } catch (error) {
-        console.log("error en carritos get data, al leer el json");
         return error;
     }
 }
@@ -21,8 +20,10 @@ function indiceUsuario(usuarioID) {
 
     let totalUsuarios= getDataU(direcionBaseUsuarios);
     let i= 0;
-    encnote= false;
+    let encontre= false;
+    
     while (i<totalUsuarios.length && !encontre) {
+        
         if (totalUsuarios[i].id == usuarioID){
             encontre=true;
         }
@@ -30,11 +31,9 @@ function indiceUsuario(usuarioID) {
     }
     if (!encontre) {
         i=-1;
-        
     }
 
     return i;
-    
 }
 
 /////////////////////////////////////////////////////////////////////////
@@ -59,19 +58,15 @@ const cartOfId = (req, res) => {
             existe= true;
             let carrito = getCart(id);
             res.status(200).json({
-                    mensaje: "OK",
-                    carrito});
-                    
-                }
-    });  
-                
+                Carrito: carrito
+            });
+        }
+    });              
 
     if(!existe){
         //id fuera de rango
-        res.status(500).json("Server error");
-        }///fin del if
-
-
+        res.status(500).json({Mensaje: "Server error"});
+    }///fin del if
 };
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -81,31 +76,37 @@ const updateCart = (req, res) => {
 try {
     let id = Number(req.params.id);
     dataUsers = getDataU(direcionBaseUsuarios);
-    let indiceU = indiceUsuario(id);
-    if (0 < indiceU && indiceU < dataUsers.length) {//LE ARREGLE, DARIA -1 SI NO EXISTE
-        
+    let indiceU = dataUsers.findIndex((el)=> el.id === id )
+    
+    if (indiceU !== -1) {//LE ARREGLE, DARIA -1 SI NO EXISTE
+       
         let carrito = getCart(id);
-        let {productID, quantityNueva} = req.body;//DUDA
+        let { product, quantity } = req.body;//DUDA
+        
         let productoNuevo={
-            product: productID,
-            quantity: quantityNueva
+            product: product,
+            quantity: quantity
         };
-        let carritoNuevo;
-        if (carrito!= null){
+        
+        let carritoNuevo = [ ];
+        if (carrito){
+            
             let existeProducto= false;
-            carritoNuevo = carrito.map(iter => {
-                if (iter.product == productID){
-                    iter.quantity= quantityNueva;
-                    existeProducto= true;
+            carrito = carrito.filter(x=>!!x);  //filtramos valores null, vacios y NaN en el carrito
+        
+            carritoNuevo = carrito.map((el) => {
+                if(el.product === product){
+                    el.quantity = quantity;
+                    existeProducto = true;
                 }
-                else return iter;
+                return el;
             });//map
-
+            
             if (!existeProducto) {
-                carrito.push(productoNuevo);
+                carritoNuevo.push(productoNuevo);
             }
             
-            if (quantityNueva==0) {
+            if (quantity == 0) {
                 let indiceProducto= carritoNuevo.findIndex((element)=>{element.quantity==0});
                 carritoNuevo.splice(indiceProducto,1);
             }//si baja a 0 la cantidad lo elimina
@@ -113,32 +114,25 @@ try {
             dataUsers[indiceU].cart = carritoNuevo;
             fs.writeFileSync(direcionBaseUsuarios, JSON.stringify(dataUsers));
             
-            res.status(200).json({
-                mensaje:"OK",
-                dataUsers,
-            })
+            res.status(200).json({ CarritoNuevo: carritoNuevo});
         }
         else{
 
-            carrito.push(productoNuevo);
-            dataUsers[indiceU].cart = carritoNuevo;
-            fs.writeFileSync(direcionBaseUsuarios, JSON.stringify(dataUsers));
-            
-            res.status(200).json({
-                mensaje:"OK",
-                dataUsers,
-            });
+            // carrito.push(productoNuevo);
+            // dataUsers[indiceU].cart = carrito;
+            // fs.writeFileSync(direcionBaseUsuarios, JSON.stringify(dataUsers));
+            // res.status(200).json({ CarritoNuevo: carrito});
             //no existe el carrito 404 nofoundd
-            //res.status(404).json("Not Found");
+            res.status(404).json({Mensaje: " No existe un carrito."});
         };
     }
     else{
         //no esta el usuario
-        res.status(500).json("server error o id fuera de rango")
+        res.status(500).json({Mensaje: "Server error o id fuera de rango"});
     };//findel if
         
     } catch (error) {
-        console.log("error en updatecarrito");
+        
         res.status(500).json("server error");
     };
 }//updatecarrito recontraineficientejaja
