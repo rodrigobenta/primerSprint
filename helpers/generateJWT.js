@@ -5,17 +5,19 @@ const passwd = process.env.JWT_PASS;
 
 const generateJWT = (payload) => {
 
+
+
    return new Promise((resolve, reject) => {
 
       jwt.sign(payload, process.env.JWT_PASS, {
-         expiresIn: '1h',
+         expiresIn: '1h',  
          algorithm: 'HS512'
       }, (err, token) => {
          if (err) {
             console.log(err);
             reject('No se pudo crear el token')
          }
-
+         console.log(token)
          resolve(token);
       })
    })

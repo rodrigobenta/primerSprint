@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {cartOfId, updateCart} = require('../controllers/cartController');
+const {cartOfId, updateCart} = require('../controllers/cartsControllers');
 const verify = require('../middleware/verifyJWT');
 
 

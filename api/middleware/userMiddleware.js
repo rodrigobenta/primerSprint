@@ -5,7 +5,7 @@ const createUserVerify = (req,res,next) =>{
     if(!id || !email || !username || !password || !firstname || !lastname) 
         return res.status(400).json({Mensaje: 'Para crear un usuario debe contener todos los elementos'});
     if(!role)
-        role= "guest";
+        req.body.role = 'guest';
     if(profilepic)
         profilepic = req.profilepic;
 
@@ -16,6 +16,7 @@ const verifyRoleList = (req , res, next) => {
     let idDb = Number(req.id);
     let id = Number(req.params.id);
     let role = req.role;
+    role = role.toLowerCase();
 
     if (role === 'guest' && (id !== idDb))
         return res.status(401).json({ Mensaje: 'No tienes permisos.' });
@@ -27,6 +28,7 @@ const verifyRoleEdit = (req , res, next) => {
     let idDb = Number(req.id);
     let id = Number(req.params.id);
     let role = req.role;
+    role = role.toLowerCase();
 
     if( role === 'admin' || (role === 'guest' && (id !== idDb)))
         return res.status(401).json({ Mensaje: 'No tienes permisos para editar.' });
@@ -36,7 +38,8 @@ const verifyRoleEdit = (req , res, next) => {
 
 const verifyRoleDelete = (req, res, next) => {
     let role = req.role;
-
+    role = role.toLowerCase();
+    
     if(role === 'guest' || role === 'admin')
         return res.status(401).json({ Mensaje: 'No tienes permisos para eliminar.' });
     

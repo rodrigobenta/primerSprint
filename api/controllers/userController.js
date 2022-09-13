@@ -5,19 +5,18 @@ const login = async (req,res) => {
 
 
     try {
-        console.log("anda");
         let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         data = JSON.parse(data);
 
         const userLogin = data.find(data => data.username == req.body.username && data.password == req.body.password);
-            console.log(userLogin);
+
         if(!userLogin) res.status(500).json({
             msg: "Server error"
         })
         else {
-            console.log("h..")
+            console.log(userLogin)
             const token = await jwt(userLogin);
-            console.log("h")
+            console.log("login")
             userLogin.password = '';
                 res.status(200).json({
                 success: true,
@@ -89,23 +88,25 @@ const createUser = (req,res) => {
 }
 
 const editUserById = (req,res) => {
-    let { id, ...propiedades} = req.body;
-    let newEl;
     try{
-        
+        let {...propiedades} = req.body;
+        let id = Number(req.params.id);
+
+        let newEl;
         let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         let users = JSON.parse(dbUser);
 
-        let userEdited = users.filter(el => el.id === Number(id));
+        let userEdited = users.find(el => el.id === id);
 
-        if(userEdited.length > 0) {
+        if(userEdited) {
             const usersUpdate = users.map(elem => {
-            if (Number(elem.id) == Number(id)){
-                newEl = {id, ...propiedades};
-                return newEl;
-            }
-            else return elem;
-            })
+                    if (Number(elem.id) == id){
+                        newEl = {id, ...propiedades};
+                        return newEl;
+                    }
+                    else return elem;
+                    })
+
             fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(usersUpdate));
             res.status(200).json(newEl);
         }else{

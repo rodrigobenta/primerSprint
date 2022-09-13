@@ -62,9 +62,9 @@ const listProductByKeyword = (req, res) => {
 
         dataParsed.forEach(element => {
 
-        if(element.title.toLowerCase() === key.toLowerCase() || element.description.toLowerCase() === key.toLowerCase()|| element.category.toLowerCase() === key.toLowerCase() ){
-                newList.push(element)
-        }
+            if(element.title.toLowerCase() === key.toLowerCase() || element.description.toLowerCase() === key.toLowerCase()|| element.category.toLowerCase() === key.toLowerCase() ){
+                    newList.push(element)
+            }
         });
 
         res.status(200).json(newList);
@@ -161,16 +161,17 @@ const createProduct = (req, res) => {
         for(let i=0; i<gallery.length; i++){
             let findObject;
             findObject = dataParsedPictures.find(dataP => dataP.picture_id == gallery[i]);
-            arrayDePicture.push(findObject);
+            console.log(findObject);
+            if(findObject) arrayDePicture.push(findObject);
         }
-
+        gallery = [...arrayDePicture];
         let nuevoProducto = {
             id,
             title,
             price,
             description,
             image,
-            arrayDePicture, //gallery property para el array de pictures.
+            gallery, //gallery property para el array de pictures.
             category,
             mostwanted,
             stock
@@ -193,9 +194,7 @@ const createProduct = (req, res) => {
     }
 }
 
-
 const editProduct = (req, res) => {
-
     const { id, ...restoDeElementos } = req.body;
     const { idProduct } = req.params;
 
@@ -254,4 +253,4 @@ const deleteProduct = (req, res) => {
 
 }
 
-module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, createProduct, editProduct, deleteProduct };
+module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, listCategory, createProduct, editProduct, deleteProduct};
