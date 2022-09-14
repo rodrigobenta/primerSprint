@@ -1037,7 +1037,7 @@ paths:
                       description:
                         type: string
                       
-                   
+                  
                               
         '400':
           description:  bad request
@@ -1087,7 +1087,7 @@ paths:
                       description:
                         type: string
                       
-                   
+                  
                               
         '400':
           description:  bad request
@@ -1136,7 +1136,7 @@ paths:
                       description:
                         type: string
                       
-                   
+                  
                               
         '400':
           description:  bad request
@@ -1193,7 +1193,7 @@ paths:
                       description:
                         type: string
                       
-                   
+                  
                               
         '400':
           description:  bad request
@@ -1222,7 +1222,7 @@ paths:
                     type: string
                     
                     
-  /pictures?product={id}:                 
+  /pictures:                 
     get:
       tags: 
         - pictures
@@ -1230,11 +1230,11 @@ paths:
       security:
         - bearerAuth: []
       parameters:
-        - in: path
-          name: id
+        - name: product
+          in: query
           schema:
             type: string
-          required: true
+          required: false
           description: busca producto
       
       responses: 
@@ -1252,6 +1252,7 @@ paths:
                       description:
                         type: string
                       
+                  
                               
         '400':
           description:  bad request

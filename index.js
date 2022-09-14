@@ -13,7 +13,7 @@ const swaggerDocument = YAML.load('./swagger.yaml');
 const cors = require('cors');
 
 app.use(express.json());
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
 //RUTAS
 app.use('/api/v1/users', usersRoutes);
