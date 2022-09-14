@@ -2,7 +2,7 @@ const e = require('express');
 const fs = require('fs');
 const jwt = require('../../helpers/generateJWT')
 
-
+//lista todo o categorias.
 const listProduct = (req, res) => {
 
     try {
@@ -163,39 +163,43 @@ const createProduct = (req, res) => {
 }
 
 const editProduct = (req, res) => {
-    const { id, ...restoDeElementos } = req.body;
-    const { idProduct } = req.params;
-
-    //console.log(restoDeElementos);
-
+    
     try {
+        const { id, ...restoDeElementos } = req.body;
+        const { idProduct } = req.params;
+        
         const dataToParse = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         const data = JSON.parse(dataToParse);
 
         let dataPictures = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
         let dataParsedPictures = JSON.parse(dataPictures);
         let newEl;
+        if(data.find(data => data.id == idProduct)){
+            const dataUpdate = data.map(product => {
+                if (product.id == Number(idProduct)) {
+                    if(restoDeElementos.gallery){
+                        let arrayDePicture = [];
+                        let findObject;
+                        for(let i=0; i<restoDeElementos.gallery.length; i++){
+                            if(findObject = dataParsedPictures.find(dataP => dataP.picture_id == restoDeElementos.gallery[i])){
+                                arrayDePicture.push(findObject);
+                            }
+                        }
+                        restoDeElementos.gallery = [...arrayDePicture];
 
-        const dataUpdate = data.map(product => {
-            if (product.id == Number(idProduct)) {
-                let arrayDePicture = [];
-                for(let i=0; i<restoDeElementos.gallery.length; i++){
-                    let findObject;
-                    findObject = dataParsedPictures.find(dataP => dataP.picture_id == restoDeElementos.gallery[i]);
-                    if(findObject) arrayDePicture.push(findObject);
+                        newEl = { ...product, ...restoDeElementos };
+                    }
+                    else newEl = { ...product, ...restoDeElementos };
+                    
+                    return newEl;
+                } else {
+                    return product;
                 }
-                restoDeElementos.gallery = [...arrayDePicture];
-                
-                newEl = { ...product, ...restoDeElementos };
-                
-                return newEl;
-            } else {
-                return product;
-            }
-        });
-
-        fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(dataUpdate));
-        res.status(200).json(newEl);
+            });
+            fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(dataUpdate));
+            res.status(200).json(newEl);
+    }
+    else res.status(200).json({msg: 'No existe no el producto'})
     } catch (error) {
         res.status(500).json({
             mensaje: 'Server error'
