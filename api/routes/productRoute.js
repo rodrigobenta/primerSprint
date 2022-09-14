@@ -6,8 +6,8 @@ const { listPictures } = require('../controllers/picturesController');
 const router = express.Router();
 
 
-router.get('/', verify, listProduct); //lista todo o categorias.
-router.get('/search/', listProductByKeyword);
+router.get('/', verify, listProduct);
+router.get('/search/', verify, listProductByKeyword);
 router.get('/mostwanted', verify, listMostWantedProduct);
 router.get('/:id/pictures', verify, listPictures);
 router.get('/:id', verify, listProductByID);

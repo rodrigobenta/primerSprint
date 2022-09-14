@@ -1,11 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const {cartOfId, updateCart} = require('../controllers/cartsControllers');
+const verifyRoleCartList = require('../middleware/cartListMiddleware');
+const { verifyRoleEdit } = require('../middleware/userMiddleware');
 const verify = require('../middleware/verifyJWT');
 
 
-router.get('/:id', verify, cartOfId);
-router.put('/:id', verify, updateCart);
+router.get('/:id', verify, verifyRoleCartList , cartOfId);
+router.put('/:id', verify, verifyRoleEdit, updateCart);
 
 router.get('/*', (req,res)=>{
     res.status(400).json({ Mensaje: 'Bad Request.'})

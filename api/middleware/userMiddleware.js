@@ -27,23 +27,14 @@ const verifyRoleList = (req , res, next) => {
 const verifyRoleEdit = (req , res, next) => {
     let idDb = Number(req.id);
     let id = Number(req.params.id);
-    let role = req.role;
-    role = role.toLowerCase();
+    let role = req.role.toLowerCase();
+    //role = role.toLowerCase();
 
-    if( role === 'admin' || (role === 'guest' && (id !== idDb)))
-        return res.status(401).json({ Mensaje: 'No tienes permisos para editar.' });
+    if( (role === 'admin' && (id !== idDb))  || (role === 'guest' && (id !== idDb)))
+        return res.status(401).json({ Mensaje: 'No tienes permisos' });
     
     next();
 }
 
-const verifyRoleDelete = (req, res, next) => {
-    let role = req.role;
-    role = role.toLowerCase();
-    
-    if(role === 'guest' || role === 'admin')
-        return res.status(401).json({ Mensaje: 'No tienes permisos para eliminar.' });
-    
-    next();
-}
 
-module.exports = {createUserVerify, verifyRoleList, verifyRoleEdit, verifyRoleDelete}
+module.exports = {createUserVerify, verifyRoleList, verifyRoleEdit}

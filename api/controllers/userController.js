@@ -39,8 +39,12 @@ const listUsers = (req,res) => {
     try {
         let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         let users = JSON.parse(dbUser);
+        let usersSinPass = users.map(el => {
+            el.password = "**********";
+            return el;
+        })
         res.status(200).json({
-            listaProducts: users
+            listaUsers: usersSinPass
         });
     } catch (error) {
         res.status(500).json({ Mensaje: 'Server error.' });
@@ -49,17 +53,17 @@ const listUsers = (req,res) => {
 }
 
 const listUserById = (req,res) => {
-
     try {
         let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         let users = JSON.parse(dbUser);
-        users.forEach(el => {
-            if(el.id === Number(req.params.id))
+        let user;
+            if(user = users.find(el => el.id === Number(req.params.id))){
+                user.password = "*********"
                 return res.status(200).json({
-                    listaProducts: el
+                    User: user
                 });
-        });
-        return res.status(404).json({ Mensaje: 'Id: ' + req.params.id + ', user not found ' });
+            }
+        else return res.status(404).json({ Mensaje:'user not found'});
     } catch (error) {
         res.status(500).json({ Mensaje: 'Server error.' });
     }
@@ -80,11 +84,12 @@ const createUser = (req,res) => {
         else id = 0;
         id = id+1;
 
-    const newUser = {id, email, username, password, firstname, lastname, role};
+    const cart = [];
+    const newUser = {id, email, username, password, firstname, lastname, role, cart};
 
     if(req.profilepic){
         let profilepic = req.body.profilepic;
-        newUser = {id, email, username, password, firstname, lastname, profilepic, role};
+        newUser = {id, email, username, password, firstname, lastname, profilepic, role, cart};
     }
     try {
         let dbUser = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
@@ -107,18 +112,22 @@ const editUserById = (req,res) => {
         let users = JSON.parse(dbUser);
 
         let userEdited = users.find(el => el.id === id);
+        let elementos = {...userEdited};
 
         if(userEdited) {
             const usersUpdate = users.map(elem => {
                     if (Number(elem.id) == id){
-                        newEl = {id, ...propiedades};
+                        newEl = {...elementos, ...propiedades};
                         return newEl;
                     }
                     else return elem;
                     })
 
             fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(usersUpdate));
-            res.status(200).json(newEl);
+            res.status(200).json({
+                Mensaje: "propiedades editadas",
+                data: {...propiedades}
+            });
         }else{
             return res.status(404).json({ Mensaje: 'El usuario no existe.'})
         }
