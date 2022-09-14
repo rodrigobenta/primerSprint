@@ -16,7 +16,7 @@
     "price": 200,
     "description": "h",
     "image": "url",
-    "gallery": [{ "picture_id": 1, "picture_url": "url", "description": "" }],
+    "gallery": [{ "picture_id": 2, "picture_url": "url", "description": "" }],
     "category": "Fruta",
     "mostwanted": "true",
     "stock": 10
@@ -27,7 +27,7 @@
     "price": 60,
     "description": "Blancos",
     "image": "URL DE LA IMAGEN",
-    "gallery": [{ "picture_id": 1, "picture_url": "url", "description": "" }],
+    "gallery": [{ "picture_id": 3, "picture_url": "url", "description": "" }],
     "category": "Comida",
     "mostwanted": true,
     "stock": 0

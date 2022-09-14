@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.get('/', verify, listProduct);
-router.get('/search/', listProductByKeyword);
+router.get('/search/', verify, listProductByKeyword);
 router.get('/mostwanted', verify, listMostWantedProduct);
 router.get('/:id/pictures', verify, listPictures);
 router.get('/:id', verify, listProductByID);

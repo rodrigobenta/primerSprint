@@ -1,6 +1,4 @@
-const e = require('express');
 const fs = require('fs');
-const jwt = require('../../helpers/generateJWT')
 
 
 const listProduct = (req, res) => {

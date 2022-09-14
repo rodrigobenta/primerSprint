@@ -20,28 +20,14 @@ const verifyCreateEditPictures = (req,res,next) => {
     }
 };
 
-
-const verifyByID = (req,res,next) => {
-
+const verifyRoleEditPicture = (req,res,next) => {
     try {
-        const { id } = req.params;// desestructurar
-    //const name = req.name;
-
-    if (!id ) {
-        // return res.send('Para crear el producto se necesitan nombre, precio e id');
-        return res.status(400).json({
-            mensaje: 'Bad Request',
-            mensaje2: 'Se necesita un ID'
-        });
-    }
-    
-    next();
+        let role = req.role;
+        if(role == 'guest') res.status(401).json({msg: 'No tiene permisos sobre las pictures'});
+        else next();
     } catch (error) {
-        res.status(500).json({
-            msg: 'Server Error'
-        })
+        res.status(500).json({msg: 'Server error'});
     }
-};
+}
 
-
-module.exports = {verifyCreateEditPictures,verifyByID};
+module.exports = {verifyCreateEditPictures, verifyRoleEditPicture};

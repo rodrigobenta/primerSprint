@@ -7,7 +7,7 @@ const listPictures = (req, res) => {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsedProducts = JSON.parse(data);
         if(req.params.id){
-            const {id} = req.params; //se llama product porque es el nombre del query 
+            const {id} = req.params;
             let findObject;
             if(findObject = dataParsedProducts.find(el => el.id == id)){
                 let pictures = findObject.gallery;
@@ -125,8 +125,8 @@ const editPicture = (req, res) => {
 };
 
 const deletePicture = (req, res) => {
-   const { id } = req.params;
-   try {
+    const { id } = req.params;
+    try {
         const dataToParse = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
         const data = JSON.parse(dataToParse);
 
@@ -140,9 +140,9 @@ const deletePicture = (req, res) => {
         res.status(200).json({
             ok: "Imagen eliminada con exito",
             mensaje:  oldData
-       });
+        });
 
-   } catch (error) {
+    } catch (error) {
         res.status(500).json({
             mensaje: 'Server error'
         });
