@@ -112,17 +112,15 @@ const editUserById = (req,res) => {
         let users = JSON.parse(dbUser);
 
         let userEdited = users.find(el => el.id === id);
-        let elementos = {...userEdited};
 
         if(userEdited) {
             const usersUpdate = users.map(elem => {
                     if (Number(elem.id) == id){
-                        newEl = {...elementos, ...propiedades};
+                        newEl = {...elem, ...propiedades};
                         return newEl;
                     }
                     else return elem;
                     })
-
             fs.writeFileSync(process.env.RUTA_DB_USER, JSON.stringify(usersUpdate));
             res.status(200).json({
                 Mensaje: "propiedades editadas",
