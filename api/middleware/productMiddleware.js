@@ -2,20 +2,19 @@
 const verifyCreateEdit = (req,res,next) => {
 
     try {
-    const { title, price, id,description,image,gallery,category, mostwanted,stock} = req.body;// desestructurar
+    const { title, price,category, mostwanted} = req.body;// desestructurar
     //const name = req.name;
 
     if (!title || !price || !category || !mostwanted) {
         return res.status(400).json({
-            mensaje: 'Bad Request',
-            mensaje2: 'Faltan campos necesarios para crear producto'
+            Mensaje: 'Faltan campos necesarios para crear producto'
         });
     }
     
     next();
     } catch (error) {
         res.status(500).json({
-            msg: 'Server Error'
+            Mensaje: 'Server Error'
         })
     }
 };

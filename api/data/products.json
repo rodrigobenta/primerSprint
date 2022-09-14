@@ -31,5 +31,27 @@
     "category": "Comida",
     "mostwanted": true,
     "stock": 0
+  },
+  {
+    "id": 4,
+    "title": "pan",
+    "price": 20,
+    "description": "panduro",
+    "image": "url",
+    "gallery": [{ "picture_id": 1, "picture_url": "url", "description": "" }],
+    "category": "pan",
+    "mostwanted": "false",
+    "stock": 30
+  },
+  {
+    "id": 5,
+    "title": "pan",
+    "price": 20,
+    "description": "panduro",
+    "image": "url",
+    "gallery": [],
+    "category": "pan",
+    "mostwanted": "false",
+    "stock": 30
   }
 ]

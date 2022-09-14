@@ -15,16 +15,6 @@
     ]
   },
   {
-    "id": 2,
-    "username": "jacinto",
-    "email": "rodrigo@gmail.com",
-    "password": "123456",
-    "firstname": "rodrigo",
-    "lastname": "Bidarte",
-    "profilepic": "url",
-    "role": "admin"
-  },
-  {
     "id": 4,
     "email": "matias@gmail.com",
     "username": "matias",
@@ -66,5 +56,25 @@
     "firstname": "joaquin",
     "lastname": "gonzales",
     "role": "god"
+  },
+  {
+    "id": 8,
+    "email": "jauncito@gmail.com",
+    "username": "juan",
+    "password": "123456",
+    "firstname": "juan",
+    "lastname": "cito",
+    "role": "guest",
+    "cart": []
+  },
+  {
+    "id": 9,
+    "email": "coso@gmail.com",
+    "username": "cosito",
+    "password": "123456",
+    "firstname": "co",
+    "lastname": "sito",
+    "role": "admin",
+    "cart": []
   }
 ]

@@ -8,10 +8,10 @@ const login = async (req,res) => {
         let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
         data = JSON.parse(data);
 
-        const userLogin = data.find(data => data.username == req.body.username && data.password == req.body.password);
+        let userLogin = data.find(data => data.username == req.body.username && data.password == req.body.password);
 
         if(!userLogin) res.status(500).json({
-            msg: "Server error"
+            msg: "No existe usuario o contraseña"
         })
         else {
             const token = await jwt(userLogin);

@@ -5,7 +5,7 @@ info:
   description: |-
     Esta es mi API.
 servers:
-  - url: http://localhost:3000/
+  - url: http://localhost:3000
     description: Entorno Desarrollo
     
 tags:
@@ -26,7 +26,7 @@ components:
       bearerFormat: JWT
 
 paths:
-  /api/v1/users/login/:
+  /api/v1/login/:
     post:
       tags: 
         - usuarios
@@ -53,7 +53,7 @@ paths:
                     type: boolean
                   message:
                     type: string
-                  userLogin:
+                  user:
                     type: object
                     properties:
                       id:
@@ -163,6 +163,8 @@ paths:
                 lastname:
                   type: string
                 profilepic:
+                  type: string
+                role:
                   type: string
 
       responses: 
@@ -442,6 +444,13 @@ paths:
       summary: Lista los productos 
       security:
         - bearerAuth: []
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          required: false
+          description: busca producto por categoria sino por defecto lista todos los productos
       
       responses: 
         '200':
@@ -465,8 +474,6 @@ paths:
                           type: string
                         image:
                           type: string
-                        category:
-                          type: string
                         gallery:
                           type: array
                           items:
@@ -475,7 +482,11 @@ paths:
                               picture_id:
                                 type: number
                               picture_url:
-                                type: number
+                                type: string
+                              description:
+                                type: string
+                        category:
+                          type: string        
                         mostwanted:
                           type: boolean
                         stock:
@@ -502,9 +513,33 @@ paths:
     post:
       tags: 
         - productos
-      summary: Busca los productos 
+      summary: Crea un producto
       security:
         - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                title:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                image:
+                  type: string
+                gallery:
+                  type: array
+                  items:
+                    type: number 
+                category:
+                  type: string
+                mostwanted:
+                  type: boolean
+                stock:
+                  type: number
       
       responses: 
         '201':
@@ -531,12 +566,7 @@ paths:
                       gallery:
                         type: array
                         items:
-                          type: object 
-                          properties:
-                            picture_id:
-                              type: number
-                            picture_url:
-                              type: number
+                            type: number
                       mostwanted:
                         type: boolean
                       stock:
@@ -560,6 +590,7 @@ paths:
                 properties:
                   Mensaje: 
                     type: string
+ 
   /api/v1/products/{id}:
     put:
       tags: 
@@ -580,12 +611,30 @@ paths:
           application/json:
             schema:
               properties:
-                nombre:
-                  type: string
-                precio:
-                  type: number
-                
-      
+                list:
+                  type: object
+                  properties:
+                      id:
+                        type: number
+                      title:
+                        type: string
+                      price:
+                        type: number
+                      description:
+                        type: string
+                      image:
+                        type: string
+                      category:
+                        type: string
+                      gallery:
+                        type: array
+                        items:
+                          type: number
+                      mostwanted:
+                        type: boolean
+                      stock:
+                        type: number   
+
       responses: 
         '200':
           description: ok
@@ -616,7 +665,9 @@ paths:
                             picture_id:
                               type: number
                             picture_url:
-                              type: number
+                              type: string
+                            description:
+                              type: string
                       mostwanted:
                         type: boolean
                       stock:
@@ -738,7 +789,7 @@ paths:
     get:
       tags: 
         - productos
-      summary: Busca los productos 
+      summary: Busca un producto mediante un id
       security:
         - bearerAuth: []
       parameters:
@@ -805,13 +856,20 @@ paths:
                   Mensaje: 
                     type: string
                     
-  /api/v1/search:
+  /api/v1/products/search:
     get:
       tags: 
         - productos
-      summary: Busca los productos 
+      summary: Busca los productos segun una keyword
       security:
         - bearerAuth: []
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+          required: true
+          description: busca segun la keyword
       
       responses: 
         '200':
@@ -821,7 +879,9 @@ paths:
               schema:
                 properties:
                   list:
-                    type: object
+                    type: array
+                    items:
+                      type: object
                     properties:
                       id:
                         type: number
@@ -848,10 +908,25 @@ paths:
                         type: boolean
                       stock:
                         type: number
-                   
+                        
+        '400':
+          description:  bad request
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
                               
-      
-        
+        '404':
+          description: Productos no encontrados
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+
         '500':
           description:  server error
           content:
@@ -860,9 +935,6 @@ paths:
                 properties:
                   Mensaje: 
                     type: string
-                    
-    
-  
                     
   /api/v1/products/mostwanted:
     get:
@@ -1012,8 +1084,7 @@ paths:
                 properties:
                   Mensaje: 
                     type: string
-                    
-                    
+  
   /api/v1/pictures:
     post:
       tags: 
@@ -1029,6 +1100,52 @@ paths:
             application/json:
               schema:
                 properties:
+                      id:
+                        type: number
+                      url:
+                        type: string
+                      description:
+                        type: string
+  
+        '400':
+          description:  bad request
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+        
+        '500':
+          description:  server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+    
+    get:
+      tags: 
+        - pictures
+      summary: Busca los pictures filtrados por id de producto
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: product
+          in: query
+          schema:
+            type: string
+          required: false
+          description: Busca las pictures filtradas por el id de producto
+      
+      responses: 
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
                   
                       id:
                         type: number
@@ -1036,11 +1153,17 @@ paths:
                         type: string
                       description:
                         type: string
-                      
-                  
-                              
+ 
         '400':
           description:  bad request
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+        '404':
+          description:  Not found
           content:
             application/json:
               schema:
@@ -1221,61 +1344,4 @@ paths:
                   Mensaje: 
                     type: string
                     
-                    
-  /pictures:                 
-    get:
-      tags: 
-        - pictures
-      summary: Busca los pictures 
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: product
-          in: query
-          schema:
-            type: string
-          required: false
-          description: busca producto
-      
-      responses: 
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                properties:
-                  
-                      id:
-                        type: number
-                      url:
-                        type: string
-                      description:
-                        type: string
-                      
-                  
-                              
-        '400':
-          description:  bad request
-          content:
-            application/json:
-              schema:
-                properties:
-                  Mensaje: 
-                    type: string
-        '404':
-          description:  Not found
-          content:
-            application/json:
-              schema:
-                properties:
-                  Mensaje: 
-                    type: string
-        
-        '500':
-          description:  server error
-          content:
-            application/json:
-              schema:
-                properties:
-                  Mensaje: 
-                    type: string
+            
