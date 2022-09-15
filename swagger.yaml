@@ -5,7 +5,7 @@ info:
   description: |-
     Esta API esta orientada a interactuar con el front de una pagina web de E-Commerce del grupo Cencosud SA.
 servers:
-  - url: http://localhost:3000/
+  - url: http://localhost:3000/api/v1
     description: Entorno Desarrollo
 
 tags:
@@ -27,7 +27,7 @@ components:
 
 paths:
 
-  /api/v1/users/login/:
+  /users/login/:
     post:
       tags: 
         - usuarios
@@ -45,7 +45,7 @@ paths:
               
       responses: 
         '200':
-          description: ok
+          description: logueado con exito
           content:
             application/json:
               schema:
@@ -72,7 +72,7 @@ paths:
                   msg:
                     type: string
                     
-  /api/v1/login/:
+  /login/:
     post:
       tags: 
         - usuarios
@@ -90,7 +90,7 @@ paths:
               
       responses: 
         '200':
-          description: ok
+          description: logueado con exito
           content:
             application/json:
               schema:
@@ -117,7 +117,7 @@ paths:
                   msg:
                     type: string                  
   
-  /api/v1/users/:
+  /users/:
     get:
       tags: 
         - usuarios
@@ -181,7 +181,7 @@ paths:
                     type: string
         
         '500':
-          description: User server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -257,7 +257,7 @@ paths:
                     type: string
 
         '500':
-          description: Error del servidor
+          description: Server error
           content:
             application/json:
               schema:
@@ -265,7 +265,7 @@ paths:
                   msg:
                     type: string
                     
-  /api/v1/users/{id}:
+  /users/{id}:
     get:
       tags: 
         - usuarios
@@ -278,7 +278,7 @@ paths:
           schema:
             type: number
           required: true
-          description: Listar usuario por id
+          description: Id del usuario
 
       responses: 
         '200':
@@ -326,7 +326,7 @@ paths:
                     type: string
 
         '500':
-          description: Error del servidor
+          description: Server error
           content:
             application/json:
               schema:
@@ -346,7 +346,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Edita usuario
+          description: Id del usuario
       requestBody:
         required: true
         content:
@@ -410,7 +410,7 @@ paths:
     
 
         '500':
-          description: Error del servidor
+          description: Server error
           content:
             application/json:
               schema:
@@ -430,7 +430,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Elimina usuario
+          description: Id del usuario
       
       responses: 
         '200':
@@ -475,7 +475,7 @@ paths:
                     type: string
 
         '500':
-          description: Error del servidor
+          description: Server error
           content:
             application/json:
               schema:
@@ -483,11 +483,11 @@ paths:
                   msg:
                     type: string
   
-  /api/v1/users/{id}/cart:
+  /users/{id}/cart:
     get:
       tags: 
         - usuarios
-      summary: Lista el cart del usuario
+      summary: Lista el cart de un usuario determinado
       security:
         - bearerAuth: []
       parameters:
@@ -496,7 +496,7 @@ paths:
           schema:
             type: number
           required: true
-          description: Listar cart por id de usuario
+          description: Id del usuario
 
       responses: 
         '200':
@@ -525,7 +525,7 @@ paths:
     put:
       tags: 
         - usuarios
-      summary: Actualiza el cart
+      summary: Actualiza el cart del usuario
       security:
         - bearerAuth: []
       parameters:
@@ -534,7 +534,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Actualiza el cart
+          description: Id del usuario
       requestBody:
         required: true
         content:
@@ -550,7 +550,7 @@ paths:
 
       responses: 
         '200':
-          description: ok
+          description: cart actualizado
           content:
             application/json:
               schema:
@@ -567,7 +567,7 @@ paths:
                             quantity:
                               type: number
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -576,7 +576,7 @@ paths:
                     type: string
                     
         '404':
-          description:  server error
+          description: Usuario no encontrado
           content:
             application/json:
               schema:
@@ -584,11 +584,11 @@ paths:
                   Mensaje: 
                     type: string
   
-  /api/v1/products:
+  /products:
     get:
       tags: 
         - productos
-      summary: Lista los productos 
+      summary: Lista todos los productos 
       security:
         - bearerAuth: []
       parameters:
@@ -597,11 +597,11 @@ paths:
           schema:
             type: string
           required: false
-          description: busca producto por categoria sino por defecto lista todos los productos
+          description: busca los productos segun su categoria, sino, por defecto, lista todos los productos
       
       responses: 
         '200':
-          description: ok
+          description: Listado de productos
           content:
             application/json:
               schema:
@@ -638,9 +638,9 @@ paths:
                           type: boolean
                         stock:
                           type: number
-                   
+
         '404':
-          description: Producto no encontrado
+          description: Productos con dicha categoria no encontrados
           content:
             application/json:
               schema:
@@ -650,7 +650,7 @@ paths:
       
         
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -660,7 +660,7 @@ paths:
     post:
       tags: 
         - productos
-      summary: Crea un producto
+      summary: Crea un producto 
       security:
         - bearerAuth: []
       requestBody:
@@ -690,7 +690,7 @@ paths:
       
       responses: 
         '201':
-          description: created
+          description: Producto creado con exito
           content:
             application/json:
               schema:
@@ -718,10 +718,9 @@ paths:
                         type: boolean
                       stock:
                         type: number
-                   
-                              
+
         '400':
-          description: Faltan campos necesarios para crear productos o prod. duplicado
+          description: Faltan campos necesarios para crear el producto, o el producto ya existe.
           content:
             application/json:
               schema:
@@ -730,19 +729,19 @@ paths:
                     type: string
         
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
                 properties:
                   Mensaje: 
                     type: string
- 
-  /api/v1/products/{id}:
+
+  /products/{id}:
     put:
       tags: 
         - productos
-      summary: Edita un producto
+      summary: Edita un producto identificado con id
       security:
         - bearerAuth: []
       parameters:
@@ -751,7 +750,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Edita producto
+          description: Id del producto
       requestBody:
         required: true
         content:
@@ -784,7 +783,7 @@ paths:
 
       responses: 
         '200':
-          description: ok
+          description: Producto editado con exito
           content:
             application/json:
               schema:
@@ -832,7 +831,7 @@ paths:
                     type: boolean
                     
         '404':
-          description: not found
+          description: Producto a editar no encontrado
           content:
             application/json:
               schema:
@@ -855,7 +854,7 @@ paths:
     delete:
       tags: 
         - productos
-      summary: Elimina un producto
+      summary: Elimina un producto identificado con id
       security:
         - bearerAuth: []
       parameters:
@@ -864,11 +863,11 @@ paths:
           schema:
             type: string
           required: true
-          description: Borrar producto
+          description: Id del producto
       
       responses: 
         '200':
-          description: ok
+          description: Producto eliminado con exito
           content:
             application/json:
               schema:
@@ -914,7 +913,7 @@ paths:
                     type: boolean
                     
         '404':
-          description: not found
+          description: Producto no encontrado
           content:
             application/json:
               schema:
@@ -936,7 +935,7 @@ paths:
     get:
       tags: 
         - productos
-      summary: Busca un producto mediante un id
+      summary: Busca el producto identificado con id
       security:
         - bearerAuth: []
       parameters:
@@ -945,12 +944,12 @@ paths:
           schema:
             type: string
           required: true
-          description: busca producto
+          description: Id del producto
   
       
       responses: 
         '200':
-          description: ok
+          description: Producto encontrado con exito
           content:
             application/json:
               schema:
@@ -983,7 +982,7 @@ paths:
                         type: boolean
                       stock:
                         type: number
-                   
+                  
         '404':
           description: Producto no encontrado
           content:
@@ -994,54 +993,6 @@ paths:
                     type: string                      
       
         '500':
-          description:  server error
-          content:
-            application/json:
-              schema:
-                properties:
-                  Mensaje: 
-                    type: string
-                    
-  /api/v1/products/{id}/pictures:
-    get:
-      tags:
-        - pictures
-      summary: Busca las pictures segun su id
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: number
-          required: true
-          description: busca pictures de un producto
-          
-      responses: 
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                properties:
-                  list:
-                    type: array
-                    items:
-                      type: object
-                    properties:
-                      id:
-                        type: number
-                        
-        '404':
-          description: Not found (el producto no existe)
-          content:
-            application/json:
-              schema:
-                properties:
-                  msg:
-                    type: string
-                    
-        '500':
           description: Server error
           content:
             application/json:
@@ -1049,13 +1000,12 @@ paths:
                 properties:
                   Mensaje: 
                     type: string
-        
-  
-  /api/v1/products/search:
+
+  /products/search:
     get:
       tags: 
         - productos
-      summary: Busca los productos segun una keyword
+      summary: Busca los productos segun una palabra clave
       security:
         - bearerAuth: []
       parameters:
@@ -1064,11 +1014,11 @@ paths:
           schema:
             type: string
           required: true
-          description: busca segun la keyword
+          description: Palabra clave a buscar
       
       responses: 
         '200':
-          description: ok
+          description: Productos encontrados con exito
           content:
             application/json:
               schema:
@@ -1105,7 +1055,7 @@ paths:
                         type: number
                         
         '400':
-          description:  bad request
+          description: bad request
           content:
             application/json:
               schema:
@@ -1123,7 +1073,7 @@ paths:
                     type: string
 
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -1131,17 +1081,17 @@ paths:
                   Mensaje: 
                     type: string
                     
-  /api/v1/products/mostwanted:
+  /products/mostwanted:
     get:
       tags: 
         - productos
-      summary: Busca los productos 
+      summary: Lista los productos mas buscados
       security:
         - bearerAuth: []
       
       responses: 
         '200':
-          description: ok
+          description: Productos encontrados con exito
           content:
             application/json:
               schema:
@@ -1174,10 +1124,7 @@ paths:
                         type: boolean
                       stock:
                         type: number
-                   
-                              
-      
-        
+                  
         '500':
           description:  server error
           content:
@@ -1187,103 +1134,47 @@ paths:
                   Mensaje: 
                     type: string
                     
-  /api/v1/carts/{id}:
+  /products/{id}/pictures:
     get:
-      tags: 
-        - carts
-      summary: Busca el cart
+      tags:
+        - pictures
+      summary: Lista las fotos del producto identificado con id
       security:
         - bearerAuth: []
       parameters:
         - in: path
           name: id
           schema:
-            type: string
+            type: number
           required: true
-          description: busca producto
-              
+          description: Id del producto
+          
       responses: 
         '200':
-          description: ok
+          description: Fotos listadas con exito
           content:
             application/json:
               schema:
                 properties:
-                  user:
-                    type: number
-                  gallery:
-                        type: array
-                        items:
-                          type: object 
-                          properties:
-                            product:
-                              type: number
-                            quantity:
-                              type: number
-        '500':
-          description:  server error
-          content:
-            application/json:
-              schema:
-                properties:
-                  Mensaje: 
-                    type: string
-                    
-    put:
-      tags: 
-        - carts
-      summary: Actualiza el cart
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: Actualiza el cart
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              items:
-                type: object
-                properties:
-                  product:
-                    type: number
-                  quantity:
-                    type: number
-              
-      responses: 
-        '200':
-          description: ok
-          content:
-            application/json:
-              schema:
-                properties:
-                  user:
-                    type: number
-                  gallery:
-                        type: array
-                        items:
-                          type: object 
-                          properties:
-                            product:
-                              type: number
-                            quantity:
-                              type: number
-        '500':
-          description:  server error
-          content:
-            application/json:
-              schema:
-                properties:
-                  Mensaje: 
-                    type: string
-                    
+                  list:
+                    type: array
+                    items:
+                      type: object
+                    properties:
+                      id:
+                        type: number
+                        
         '404':
-          description:  server error
+          description: Producto no encontrado
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                    
+        '500':
+          description: Server error
           content:
             application/json:
               schema:
@@ -1291,11 +1182,11 @@ paths:
                   Mensaje: 
                     type: string
   
-  /api/v1/pictures:
+  /pictures:
     post:
       tags: 
         - pictures
-      summary: Crea los pictures 
+      summary: Crea una nueva foto para un producto 
       security:
         - bearerAuth: []
       requestBody:
@@ -1311,7 +1202,7 @@ paths:
       
       responses: 
         '201':
-          description: Created
+          description: Foto creada con exito
           content:
             application/json:
               schema:
@@ -1324,7 +1215,7 @@ paths:
                         type: string
   
         '400':
-          description:  bad request
+          description: bad request
           content:
             application/json:
               schema:
@@ -1333,7 +1224,7 @@ paths:
                     type: string
         
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -1344,7 +1235,7 @@ paths:
     get:
       tags: 
         - pictures
-      summary: Busca los pictures filtrados por id de producto
+      summary: Busca las fotos de un producto identificado con un Id 
       security:
         - bearerAuth: []
       parameters:
@@ -1353,11 +1244,11 @@ paths:
           schema:
             type: string
           required: false
-          description: Busca las pictures filtradas por el id de producto
+          description: Id del producto
       
       responses: 
         '200':
-          description: ok
+          description: Fotos listadas con exito
           content:
             application/json:
               schema:
@@ -1369,7 +1260,7 @@ paths:
                         type: string
                       description:
                         type: string
- 
+
         '400':
           description:  bad request
           content:
@@ -1379,7 +1270,7 @@ paths:
                   Mensaje: 
                     type: string
         '404':
-          description:  Not found
+          description: Producto no encontrado
           content:
             application/json:
               schema:
@@ -1388,7 +1279,7 @@ paths:
                     type: string
         
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -1396,11 +1287,11 @@ paths:
                   Mensaje: 
                     type: string
                     
-  /api/v1/pictures/{id}:                 
+  /pictures/{id}:                 
     delete:
       tags: 
         - pictures
-      summary: Borra los pictures 
+      summary: Borra la foto identificada con id 
       security:
         - bearerAuth: []
       parameters:
@@ -1409,11 +1300,11 @@ paths:
           schema:
             type: string
           required: true
-          description: borrar picture
+          description: Id de la foto
       
       responses: 
         '200':
-          description: ok
+          description: Foto eliminada con exito
           content:
             application/json:
               schema:
@@ -1436,7 +1327,7 @@ paths:
                     type: string
         
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
@@ -1447,7 +1338,7 @@ paths:
     put:
       tags: 
         - pictures
-      summary: Edita un picture
+      summary: Edita una foto identificada con Id
       security:
         - bearerAuth: []
       parameters:
@@ -1456,7 +1347,7 @@ paths:
           schema:
             type: string
           required: true
-          description: Edita picture
+          description: Id de la foto
       requestBody:
         required: true
         content:
@@ -1470,7 +1361,7 @@ paths:
 
       responses: 
         '200':
-          description: ok
+          description: Foto editada con exito
           content:
             application/json:
               schema:
@@ -1518,7 +1409,7 @@ paths:
                     type: boolean
                     
         '404':
-          description: not found
+          description: Foto no encontrada
           content:
             application/json:
               schema:
@@ -1541,7 +1432,7 @@ paths:
     get:
       tags: 
         - pictures
-      summary: Busca los pictures 
+      summary: Busca la foto identificada con Id
       security:
         - bearerAuth: []
       parameters:
@@ -1554,18 +1445,17 @@ paths:
       
       responses: 
         '200':
-          description: ok
+          description: Foto encontrada con exito
           content:
             application/json:
               schema:
                 properties:
-                  
-                      id:
-                        type: number
-                      url:
-                        type: string
-                      description:
-                        type: string
+                  id:
+                    type: number
+                  url:
+                    type: string
+                  description:
+                    type: string
                       
         '400':
           description:  bad request
@@ -1592,5 +1482,143 @@ paths:
                 properties:
                   Mensaje: 
                     type: string
+
+  /carts/{id}:
+    get:
+      tags: 
+        - carts
+      summary: Busca el carrito del usuario identificado con id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id del usuario
+              
+      responses: 
+        '200':
+          description: carrito encontrado con exito
+          content:
+            application/json:
+              schema:
+                properties:
+                  carrito:
+                      type: array
+                      items:
+                        type: object 
+                        properties:
+                          product:
+                            type: object
+                            properties:
+                              id:
+                                type: number
+                              title:
+                                type: string
+                              price:
+                                type: number
+                              description:
+                                type: string
+                              image:
+                                type: string
+                              gallery:
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    picture_id:
+                                      type: number
+                                    picture_url:
+                                      type: string
+                                    description:
+                                      type: string
+                              category:
+                                type: string
+                              mostwanted:
+                                type: string
+                              stock:
+                                type: number
+                          quantity:
+                            type: number
+
+        '404':
+          description:  Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
                     
-            
+    put:
+      tags: 
+        - carts
+      summary: Actualiza el carrito del usuario identificado con id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Id del usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                type: object
+                properties:
+                  product:
+                    type: number
+                  quantity:
+                    type: number
+              
+      responses: 
+        '200':
+          description: Actualizado con exito
+          content:
+            application/json:
+              schema:
+                properties:
+                  user:
+                    type: number
+                  gallery:
+                        type: array
+                        items:
+                          type: object 
+                          properties:
+                            product:
+                              type: number
+                            quantity:
+                              type: number
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+                    
+        '404':
+          description:  Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
