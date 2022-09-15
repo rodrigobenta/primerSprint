@@ -33,7 +33,8 @@
     "firstname": "matias",
     "lastname": "Bidarte",
     "profilepic": "url",
-    "role": "guest"
+    "role": "guest",
+    "cart": []
   },
   {
     "id": 6,
@@ -47,15 +48,6 @@
       { "product": 1, "quantity": 10 },
       { "product": 2, "quantity": 12 }
     ]
-  },
-  {
-    "id": 7,
-    "email": "joaquin@gmail.com",
-    "username": "alberto",
-    "password": "123456",
-    "firstname": "joaquin",
-    "lastname": "gonzales",
-    "role": "god"
   },
   {
     "id": 8,
@@ -88,63 +80,23 @@
     "cart": []
   },
   {
-    "id": 11,
-    "email": "ayrton@gmail.com",
-    "username": "",
-    "password": "123456",
-    "firstname": "Ayrton",
-    "lastname": "Da Silva",
-    "role": "god",
-    "cart": []
-  },
-  {
-    "id": 12,
-    "email": "ayrton@gmail.com",
-    "username": "",
-    "password": "123456",
-    "firstname": "Ayrton",
-    "lastname": "Da Silva",
-    "role": "god",
-    "cart": []
-  },
-  {
-    "id": 13,
-    "email": "ayrton@gmail.com",
-    "username": "",
-    "password": "123456",
-    "firstname": "Ayrton",
-    "lastname": "Da Silva",
-    "role": "god",
-    "cart": []
-  },
-  {
-    "id": 14,
-    "email": "ayrton@gmail.com",
-    "username": "",
-    "password": "123456",
-    "firstname": "Ayrton",
-    "lastname": "Da Silva",
-    "role": "god",
-    "cart": []
-  },
-  {
-    "id": 15,
-    "email": "ayrton@gmail.com",
-    "username": "",
-    "password": "123456",
-    "firstname": "Ayrton",
-    "lastname": "Da Silva",
-    "role": "god",
-    "cart": []
-  },
-  {
     "id": 16,
-    "email": "ayrton@gmail.com",
-    "username": "s",
+    "email": "solo@gmail.com",
+    "username": "solo",
     "password": "123456",
     "firstname": "Ayrton",
     "lastname": "Da Silva",
     "role": "god",
+    "cart": []
+  },
+  {
+    "id": 17,
+    "email": "contoso@contoso.com",
+    "username": "contoso",
+    "password": "123456",
+    "firstname": "Señor",
+    "lastname": "Contosoedit",
+    "role": "guest",
     "cart": []
   }
 ]

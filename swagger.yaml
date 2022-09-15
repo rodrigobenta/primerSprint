@@ -160,16 +160,6 @@ paths:
                               type: number
                             quantity:
                               type: number
-                              
-                      
-        '400':
-          description: Elementos faltantes para crear un usuario
-          content:
-            application/json:
-              schema:
-                properties:
-                  Mensaje:
-                    type: string
         
         '401':
           description: No posee los permisos para acceder a la funcionalidad
@@ -248,7 +238,7 @@ paths:
                               type: number
 
         '400':
-          description: Bad request
+          description: Username, Email o Campos faltantes
           content:
             application/json:
               schema:
@@ -757,29 +747,24 @@ paths:
           application/json:
             schema:
               properties:
-                list:
-                  type: object
-                  properties:
-                      id:
-                        type: number
-                      title:
-                        type: string
-                      price:
-                        type: number
-                      description:
-                        type: string
-                      image:
-                        type: string
-                      category:
-                        type: string
-                      gallery:
-                        type: array
-                        items:
-                          type: number
-                      mostwanted:
-                        type: boolean
-                      stock:
-                        type: number   
+                title:
+                  type: string
+                price:
+                  type: number
+                description:
+                  type: string
+                image:
+                  type: string
+                gallery:
+                  type: array
+                  items:
+                    type: number 
+                category:
+                  type: string
+                mostwanted:
+                  type: boolean
+                stock:
+                  type: number   
 
       responses: 
         '200':

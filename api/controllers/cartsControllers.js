@@ -36,9 +36,10 @@ const cartOfId = (req, res) => {
                 existe = true;
                 carrito = getCart(id);
                 let cartObjects = [];
-                let obj= {};
+                let prodCarro;
                     carrito.forEach(el => {
-                        let prodCarro = dataParsed.find(dataParsed => dataParsed.id == el.product);
+                        let obj= {};
+                        prodCarro = dataParsed.find(dataParsed => dataParsed.id == el.product);
                         obj['product'] = prodCarro; 
                         obj['quantity'] = el.quantity;
                         cartObjects.push(obj);
