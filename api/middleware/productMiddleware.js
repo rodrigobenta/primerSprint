@@ -1,3 +1,4 @@
+const e = require('express');
 const fs = require('fs');
 
 const verifyCreateEdit = (req,res,next) => {
@@ -5,12 +6,15 @@ const verifyCreateEdit = (req,res,next) => {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
         const { title, price,category, mostwanted} = req.body;// desestructurar
-        let proveTitle;
+        let proveTitle = dataParsed.find( dataParsed => dataParsed.title === title);
+        console.log(proveTitle);
         if(proveTitle = dataParsed.find( dataParsed => dataParsed.title === title)) return res.status(400).json({msg: 'Producto ya ingresado'});
-        if (!title || !price || !category || !mostwanted) {
-            return res.status(400).json({
-                Mensaje: 'Faltan campos necesarios para crear producto'
-            });
+        else{
+            if (!title || !price || !category || !mostwanted) {
+                return res.status(400).json({
+                    Mensaje: 'Faltan campos necesarios para crear producto'
+                });
+            }
         }
         
         next();

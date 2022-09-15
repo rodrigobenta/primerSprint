@@ -1,16 +1,21 @@
+const fs = require('fs');
 
 const verifyCreateEditPictures = (req,res,next) => {
 
     try {
         const {picture_id,picture_url, description} = req.body;// desestructurar
-    //const name = req.name;
-
-    if (req.method!= 'PUT' && !picture_url) {
-        // return res.send('Para crear el producto se necesitan nombre, precio e id');
-        return res.status(400).json({
-            mensaje: 'Faltan campos necesarios para crear la picture'
-        });
-    }
+        let data = fs.readFileSync(process.env.RUTA_DB_PICTURES, 'utf-8');
+        let dataParsed = JSON.parse(data);
+        let provePicURL;
+        if(provePicURL = dataParsed.find(dataParsed => dataParsed.picture_url == picture_url)) return res.status(400).json({msg: 'La imagen ya existe'})
+        else{
+            if (req.method!= 'PUT' && !picture_url) {
+                // return res.send('Para crear el producto se necesitan nombre, precio e id');
+                return res.status(400).json({
+                    mensaje: 'Faltan campos necesarios para crear la picture'
+                });
+            }
+        }
     
     next();
     } catch (error) {

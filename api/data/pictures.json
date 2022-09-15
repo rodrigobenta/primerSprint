@@ -8,5 +8,8 @@
     "picture_url": "url_Asdfasdfasdfasdfasfd",
     "description": ""
   },
-  { "picture_id": 6, "picture_url": "string", "description": "string" }
+  { "picture_id": 6, "picture_url": "url", "description": "" },
+  { "picture_id": 7, "picture_url": "url", "description": "" },
+  { "picture_id": 8, "picture_url": "url", "description": "" },
+  { "picture_id": 9, "picture_url": "uASDFASDFrl", "description": "" }
 ]
