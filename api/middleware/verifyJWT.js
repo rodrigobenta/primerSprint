@@ -19,7 +19,7 @@ const verifyJWT = (req, res, next) => {
         next();
     } catch (error) {
         return res.status(401).json({
-            token,
+            //token,
             ok: false,
             msg: "Token invalido"
         })

@@ -4,17 +4,17 @@ const createUserVerify = (req,res,next) =>{
     let data = fs.readFileSync(process.env.RUTA_DB_USER, 'utf-8');
     let dataParsed = JSON.parse(data);
     let { id, email, username, password, firstname, lastname, profilepic, role} = req.body;
-    if((dataParsed => dataParsed.username === username)) res.status(400).json({Mensaje: 'Nombre de usuario ya utilizado'});
-    else if((dataParsed => dataParsed.email === email)) res.status(400).json({Mensaje: 'Email ya utilizado'});
-    else{
-        if(!email || !username || !password || !firstname || !lastname) 
-            return res.status(400).json({Mensaje: 'Para crear un usuario debe contener todos los elementos'});
-        if(!role)
-            req.body.role = 'guest';
-        if(profilepic)
-            profilepic = req.profilepic;
-    }
-    
+    let proveUsername, proveEmail;
+    if(proveUsername = dataParsed.find( dataParsed => dataParsed.username === username)) return res.status(400).json({msg: 'Username ya utilizado'});
+    if(proveEmail = dataParsed.find(dataParsed => dataParsed.email === email)) return res.status(400).json({Mensaje: 'Email ya utilizado'});
+        
+    if((!email)|| (!username) || (!password) || (!firstname) || (!lastname))
+        return res.status(400).json({Mensaje: 'Para crear un usuario debe contener todos los elementos'});
+    if(!role)
+        req.body.role = 'guest';
+    if(profilepic)
+        profilepic = req.profilepic;
+
     next();
 };
 

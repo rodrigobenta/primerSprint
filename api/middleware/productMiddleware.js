@@ -1,17 +1,19 @@
+const fs = require('fs');
 
 const verifyCreateEdit = (req,res,next) => {
-
     try {
-    const { title, price,category, mostwanted} = req.body;// desestructurar
-    //const name = req.name;
-
-    if (!title || !price || !category || !mostwanted) {
-        return res.status(400).json({
-            Mensaje: 'Faltan campos necesarios para crear producto'
-        });
-    }
-    
-    next();
+        let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
+        let dataParsed = JSON.parse(data);
+        const { title, price,category, mostwanted} = req.body;// desestructurar
+        let proveTitle;
+        if(proveTitle = dataParsed.find( dataParsed => dataParsed.title === title)) return res.status(400).json({msg: 'Producto ya ingresado'});
+        if (!title || !price || !category || !mostwanted) {
+            return res.status(400).json({
+                Mensaje: 'Faltan campos necesarios para crear producto'
+            });
+        }
+        
+        next();
     } catch (error) {
         res.status(500).json({
             Mensaje: 'Server Error'

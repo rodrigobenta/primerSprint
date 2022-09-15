@@ -1,13 +1,13 @@
 openapi: 3.0.0
 info:
-  title: Mi API
+  title: Mi E-Commerce
   version: 1.0.0
   description: |-
-    Esta es mi API.
+    Esta API esta orientada a interactuar con el front de una pagina web de E-Commerce del grupo Cencosud SA.
 servers:
-  - url: http://localhost:3000
+  - url: http://localhost:3000/
     description: Entorno Desarrollo
-    
+
 tags:
   - name: usuarios
     description: Todos los endpoints de usuarios
@@ -26,6 +26,52 @@ components:
       bearerFormat: JWT
 
 paths:
+
+  /api/v1/users/login/:
+    post:
+      tags: 
+        - usuarios
+      summary: Login al sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+              
+      responses: 
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      username:
+                        type: string
+                  token:
+                    type: string
+        '404':
+          description: No se encuentra el usuario
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                    
   /api/v1/login/:
     post:
       tags: 
@@ -436,7 +482,108 @@ paths:
                 properties:
                   msg:
                     type: string
+  
+  /api/v1/users/{id}/cart:
+    get:
+      tags: 
+        - usuarios
+      summary: Lista el cart del usuario
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+          required: true
+          description: Listar cart por id de usuario
 
+      responses: 
+        '200':
+          description: Cart listado con exito
+          content:
+            application/json:
+              schema:
+                properties:
+                  userListed:
+                    type: object
+                    properties:
+                      product:
+                        type: number
+                      quantity:
+                        type: number
+                        
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+
+    put:
+      tags: 
+        - usuarios
+      summary: Actualiza el cart
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: Actualiza el cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                type: object
+                properties:
+                  product:
+                    type: number
+                  quantity:
+                    type: number
+
+      responses: 
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  user:
+                    type: number
+                  gallery:
+                        type: array
+                        items:
+                          type: object 
+                          properties:
+                            product:
+                              type: number
+                            quantity:
+                              type: number
+        '500':
+          description:  server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+                    
+        '404':
+          description:  server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+  
   /api/v1/products:
     get:
       tags: 
@@ -574,7 +721,7 @@ paths:
                    
                               
         '400':
-          description:  bad request
+          description: Faltan campos necesarios para crear productos o prod. duplicado
           content:
             application/json:
               schema:
@@ -846,7 +993,6 @@ paths:
                   msg:
                     type: string                      
       
-        
         '500':
           description:  server error
           content:
@@ -856,6 +1002,55 @@ paths:
                   Mensaje: 
                     type: string
                     
+  /api/v1/products/{id}/pictures:
+    get:
+      tags:
+        - pictures
+      summary: Busca las pictures segun su id
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: number
+          required: true
+          description: busca pictures de un producto
+          
+      responses: 
+        '200':
+          description: ok
+          content:
+            application/json:
+              schema:
+                properties:
+                  list:
+                    type: array
+                    items:
+                      type: object
+                    properties:
+                      id:
+                        type: number
+                        
+        '404':
+          description: Not found (el producto no existe)
+          content:
+            application/json:
+              schema:
+                properties:
+                  msg:
+                    type: string
+                    
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                properties:
+                  Mensaje: 
+                    type: string
+        
+  
   /api/v1/products/search:
     get:
       tags: 
@@ -996,7 +1191,7 @@ paths:
     get:
       tags: 
         - carts
-      summary: Busca los carts 
+      summary: Busca el cart
       security:
         - bearerAuth: []
       parameters:
@@ -1034,11 +1229,10 @@ paths:
                   Mensaje: 
                     type: string
                     
-
     put:
       tags: 
         - carts
-      summary: Busca los carts 
+      summary: Actualiza el cart
       security:
         - bearerAuth: []
       parameters:
@@ -1047,7 +1241,19 @@ paths:
           schema:
             type: string
           required: true
-          description: busca producto
+          description: Actualiza el cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              items:
+                type: object
+                properties:
+                  product:
+                    type: number
+                  quantity:
+                    type: number
               
       responses: 
         '200':
@@ -1089,9 +1295,19 @@ paths:
     post:
       tags: 
         - pictures
-      summary: Busca los pictures 
+      summary: Crea los pictures 
       security:
         - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                picture_url:
+                  type: string
+                description:
+                  type: string
       
       responses: 
         '201':
@@ -1184,7 +1400,7 @@ paths:
     delete:
       tags: 
         - pictures
-      summary: Busca los pictures 
+      summary: Borra los pictures 
       security:
         - bearerAuth: []
       parameters:
@@ -1193,7 +1409,7 @@ paths:
           schema:
             type: string
           required: true
-          description: busca producto
+          description: borrar picture
       
       responses: 
         '200':
@@ -1210,8 +1426,6 @@ paths:
                       description:
                         type: string
                       
-                  
-                              
         '400':
           description:  bad request
           content:
@@ -1229,11 +1443,11 @@ paths:
                 properties:
                   Mensaje: 
                     type: string
-    
+
     put:
       tags: 
         - pictures
-      summary: Busca los pictures 
+      summary: Edita un picture
       security:
         - bearerAuth: []
       parameters:
@@ -1242,8 +1456,18 @@ paths:
           schema:
             type: string
           required: true
-          description: busca producto
-      
+          description: Edita picture
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                properties:
+                    picture_url:
+                      type: string
+                    description:
+                      type: string
+
       responses: 
         '200':
           description: ok
@@ -1251,41 +1475,68 @@ paths:
             application/json:
               schema:
                 properties:
-                  
+                  list:
+                    type: object
+                    properties:
                       id:
                         type: number
-                      url:
+                      title:
                         type: string
+                      price:
+                        type: number
                       description:
                         type: string
+                      image:
+                        type: string
+                      category:
+                        type: string
+                      gallery:
+                        type: array
+                        items:
+                          type: object 
+                          properties:
+                            picture_id:
+                              type: number
+                            picture_url:
+                              type: string
+                            description:
+                              type: string
+                      mostwanted:
+                        type: boolean
+                      stock:
+                        type: number
                       
-                  
-                              
         '400':
-          description:  bad request
+          description: Bad request
           content:
             application/json:
               schema:
                 properties:
-                  Mensaje: 
+                  msg:
                     type: string
+                  ok:
+                    type: boolean
+                    
         '404':
-          description:  Not found
+          description: not found
           content:
             application/json:
               schema:
                 properties:
-                  Mensaje: 
+                  msg:
                     type: string
-        
+                  ok:
+                    type: boolean
         '500':
-          description:  server error
+          description: Server error
           content:
             application/json:
               schema:
                 properties:
-                  Mensaje: 
+                  msg:
                     type: string
+                  ok:
+                    type: boolean
                     
     get:
       tags: 
@@ -1316,8 +1567,6 @@ paths:
                       description:
                         type: string
                       
-                  
-                              
         '400':
           description:  bad request
           content:

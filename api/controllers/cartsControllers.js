@@ -29,24 +29,29 @@ function getCart(usuarioID){
 ////////////////////////////////////////////////////////////////////////////////////////
 // devuelve el carrito del usuario identificado con ID
 const cartOfId = (req, res) => {
-    let id = Number(req.params.id);
-    let usuarios = getDataU(direcionBaseUsuarios);
-    let existe= false;
-    usuarios.forEach(element => {
-        if(element.id == id){
-            existe= true;
-            let carrito = getCart(id);
-            res.status(200).json({
-                Carrito: carrito
-            });
-        }
-    });              
+    try {
+        let id = Number(req.params.id);
+        let usuarios = getDataU(direcionBaseUsuarios);
+        let existe= false;
+        let carrito;
+        usuarios.forEach(element => {
+            if(element.id == id){
+                existe= true;
+                carrito = getCart(id);
+                res.status(200).json({
+                    Carrito: carrito
+                });
+            }
+        });              
 
-    if(!existe){
-        //id fuera de rango
+    } catch (error) {
         res.status(500).json({Mensaje: "Server error"});
-    }///fin del if
+    }
 };
+
+// function isEmpty(obj) {
+//     return Object.keys(obj).length === 0;
+// }
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //actualizar el carrito del usuario dado
