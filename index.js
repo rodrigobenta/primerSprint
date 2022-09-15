@@ -6,27 +6,29 @@ const cartsRouter = require('./api/routes/cartsRoutes');
 const {login} = require('./api/controllers/userController');
 const picturesRoutes = require('./api/routes/picturesRoutes');
 const app = express();
-
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 const swaggerDocument = YAML.load('./swagger.yaml');
 const cors = require('cors');
-
 app.use(express.json());
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use(cors());
+
+
+
 //RUTAS
 app.use('/api/v1/users', usersRoutes);
 app.use('/api/v1/products', productsRoutes);
 app.use('/api/v1/carts', cartsRouter);
 app.use('/api/v1/pictures', picturesRoutes);
 
+
+
 //ALIAS:
 app.post('/api/v1/login', login);
 
 
 
-// control de error en parametro
 
 app.get('/*', (req,res)=>{
     res.status(400).json({ Mensaje: 'Bad Request.'})

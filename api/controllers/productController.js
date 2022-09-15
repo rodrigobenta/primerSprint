@@ -1,8 +1,7 @@
 const fs = require('fs');
 
-//lista todo o categorias.
+//lista todos los productos, o lista por categoria.
 const listProduct = (req, res) => {
-
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
@@ -89,7 +88,7 @@ const createProduct = (req, res) => {
         let id=0;
         if(dataParsed.length>0){
             for(let i = 0; i< dataParsed.length ; i++){
-                    if(id<dataParsed[i].id) id = dataParsed[i].id;
+                if(id<dataParsed[i].id) id = dataParsed[i].id;
             }
         }
         else id = 0;
@@ -172,13 +171,13 @@ const deleteProduct = (req, res) => {
         const { id } = req.params;
         let dataToParse = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let data = JSON.parse(dataToParse);
-        let oldData = data.filter(el => el.id === Number(id));//obj eliminado para mostrar
+        let oldData = data.filter(el => el.id === Number(id));
         if(!oldData){
             res.status(404).json({
                 mensaje: 'Producto no encontrado'
             });
         }
-        const newData = data.filter(el => el.id !== Number(id)); // esto siempre con const
+        const newData = data.filter(el => el.id !== Number(id));
         fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(newData));
         res.status(200).json({
             mensaje: 'Producto eliminado con exito',
@@ -191,4 +190,11 @@ const deleteProduct = (req, res) => {
     }
 }
 
-module.exports = { listProduct,listProductByID ,listProductByKeyword, listMostWantedProduct, createProduct, editProduct, deleteProduct};
+module.exports = { listProduct,
+    listProductByID,
+    listProductByKeyword,
+    listMostWantedProduct,
+    createProduct,
+    editProduct,
+    deleteProduct
+};

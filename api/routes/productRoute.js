@@ -6,15 +6,17 @@ const { listPictures } = require('../controllers/picturesController');
 const router = express.Router();
 
 
+
 router.get('/', verify, listProduct);
 router.get('/search/', verify, listProductByKeyword);
 router.get('/mostwanted', verify, listMostWantedProduct);
 router.get('/:id/pictures', verify, listPictures);
 router.get('/:id', verify, listProductByID);
-
 router.post('/', verify, verifyRoleCreateDelete, verifyCreateEdit, createProduct);
 router.put('/:idProduct', verify, verifyRoleEdit, editProduct);
 router.delete('/:id', verify, verifyRoleCreateDelete, deleteProduct);
+
+
 
 router.get('/*', (req,res)=>{
     res.status(400).json({ Mensaje: 'Bad Request.'})

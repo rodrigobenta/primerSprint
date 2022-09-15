@@ -47,5 +47,104 @@
       { "product": 1, "quantity": 10 },
       { "product": 2, "quantity": 12 }
     ]
+  },
+  {
+    "id": 7,
+    "email": "joaquin@gmail.com",
+    "username": "alberto",
+    "password": "123456",
+    "firstname": "joaquin",
+    "lastname": "gonzales",
+    "role": "god"
+  },
+  {
+    "id": 8,
+    "email": "jauncito@gmail.com",
+    "username": "juan",
+    "password": "123456",
+    "firstname": "juan",
+    "lastname": "cito",
+    "role": "guest",
+    "cart": []
+  },
+  {
+    "id": 9,
+    "email": "coso@gmail.com",
+    "username": "cosito",
+    "password": "123456",
+    "firstname": "co",
+    "lastname": "sito",
+    "role": "admin",
+    "cart": []
+  },
+  {
+    "id": 10,
+    "email": "ayrton@gmail.com",
+    "username": "ayds",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "role": "god",
+    "cart": []
+  },
+  {
+    "id": 11,
+    "email": "ayrton@gmail.com",
+    "username": "",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "role": "god",
+    "cart": []
+  },
+  {
+    "id": 12,
+    "email": "ayrton@gmail.com",
+    "username": "",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "role": "god",
+    "cart": []
+  },
+  {
+    "id": 13,
+    "email": "ayrton@gmail.com",
+    "username": "",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "role": "god",
+    "cart": []
+  },
+  {
+    "id": 14,
+    "email": "ayrton@gmail.com",
+    "username": "",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "role": "god",
+    "cart": []
+  },
+  {
+    "id": 15,
+    "email": "ayrton@gmail.com",
+    "username": "",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "role": "god",
+    "cart": []
+  },
+  {
+    "id": 16,
+    "email": "ayrton@gmail.com",
+    "username": "s",
+    "password": "123456",
+    "firstname": "Ayrton",
+    "lastname": "Da Silva",
+    "role": "god",
+    "cart": []
   }
 ]

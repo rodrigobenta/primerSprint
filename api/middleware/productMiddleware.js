@@ -7,7 +7,6 @@ const verifyCreateEdit = (req,res,next) => {
         let dataParsed = JSON.parse(data);
         const { title, price,category, mostwanted} = req.body;// desestructurar
         let proveTitle = dataParsed.find( dataParsed => dataParsed.title === title);
-        console.log(proveTitle);
         if(proveTitle = dataParsed.find( dataParsed => dataParsed.title === title)) return res.status(400).json({msg: 'Producto ya ingresado'});
         else{
             if (!title || !price || !category || !mostwanted) {
@@ -16,7 +15,6 @@ const verifyCreateEdit = (req,res,next) => {
                 });
             }
         }
-        
         next();
     } catch (error) {
         res.status(500).json({
@@ -45,6 +43,8 @@ const verifyRoleEdit = (req,res,next) => {
     }
 }
 
-
-
-module.exports = {verifyRoleCreateDelete, verifyRoleEdit, verifyCreateEdit};
+module.exports = {
+    verifyRoleCreateDelete,
+    verifyRoleEdit,
+    verifyCreateEdit
+};

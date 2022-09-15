@@ -4,12 +4,13 @@ const {listPictures, listPictureById, createPicture, editPicture, deletePicture}
 const { verifyCreateEditPictures, verifyRoleEditPicture } = require('../middleware/picturesMiddelware');
 const router = express.Router();
 
-//RUTAS PARA PICTURES:
+
 router.get('/', verify, listPictures);
 router.get('/:id' , verify,listPictureById);
 router.post('/',verify, verifyRoleEditPicture ,verifyCreateEditPictures ,createPicture);
 router.put('/:id',verify, verifyRoleEditPicture ,verifyCreateEditPictures ,editPicture);
 router.delete('/:id',verify, verifyRoleEditPicture ,deletePicture);
+
 
 
 router.get('/*', (req,res)=>{

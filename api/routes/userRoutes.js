@@ -6,20 +6,20 @@ const { createUserVerify, verifyRoleList, verifyRoleEdit} = require('../middlewa
 const { cartOfId, updateCart } = require('../controllers/cartsControllers');
 
 
-//RUTAS DE USUARIOS:JWT
+
 router.get('/', verifyJWT, verifyRoleList, listUsers); 
 router.get('/:id', verifyJWT, verifyRoleList, listUserById);
 router.post('/', createUserVerify, createUser);
 router.put('/:id', verifyJWT, verifyRoleEdit, editUserById);
 router.delete('/:id', verifyJWT, verifyRoleEdit, deleteUserById);
-
-
 router.post('/login', login);
 
 
-//RUTAS DE CARTS:
+//Alias de carts:
 router.get('/:id/cart', verifyJWT, verifyRoleList , cartOfId);
 router.put('/:id/cart', verifyJWT, verifyRoleEdit, updateCart);
+
+
 
 router.get('/*', (req,res)=>{
     res.status(400).json({ Mensaje: 'Bad Request.'})

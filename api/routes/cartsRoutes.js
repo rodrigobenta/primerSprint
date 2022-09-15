@@ -9,6 +9,8 @@ const verify = require('../middleware/verifyJWT');
 router.get('/:id', verify, verifyRoleCartList , cartOfId);
 router.put('/:id', verify, verifyRoleEdit, updateCart);
 
+
+
 router.get('/*', (req,res)=>{
     res.status(400).json({ Mensaje: 'Bad Request.'})
 })
