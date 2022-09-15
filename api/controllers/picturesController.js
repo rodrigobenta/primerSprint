@@ -13,7 +13,9 @@ const listPictures = (req, res) => {
                 let pictures = findObject.gallery;
                 pictures ? res.status(200).json({pictures}) : res.status(404).json({msg: 'No existen fotos en galeria'});
             }
-            else res.status(404).json({msg: 'No existe el producto indicado'});
+            else {
+                res.status(404).json({msg: 'No existe el producto indicado'});
+            }
         }
         else{
             const {product} = req.query; //se llama product porque es el nombre del query 
@@ -96,7 +98,6 @@ const createPicture = (req, res) => {
 };
 
 const editPicture = (req, res) => {
-
     const { picture_id, ...restoDeElementos } = req.body;
     const { id } = req.params;
 

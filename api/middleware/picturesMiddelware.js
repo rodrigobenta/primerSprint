@@ -5,7 +5,7 @@ const verifyCreateEditPictures = (req,res,next) => {
         const {picture_id,picture_url, description} = req.body;// desestructurar
     //const name = req.name;
 
-    if (!picture_url) {
+    if (req.method!= 'PUT' && !picture_url) {
         // return res.send('Para crear el producto se necesitan nombre, precio e id');
         return res.status(400).json({
             mensaje: 'Faltan campos necesarios para crear la picture'
