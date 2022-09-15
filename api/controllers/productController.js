@@ -17,6 +17,7 @@ const listProduct = (req, res) => {
             else res.status(200).json({dataToShow});
         }
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             mensaje: 'Server error'
         });
@@ -36,6 +37,7 @@ const listProductByID = (req, res) => {
         }
         res.status(200).json(dataToShow);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             mensaje: 'server error'
         });
@@ -50,11 +52,12 @@ const listProductByKeyword = (req, res) => {
         let newList =[];
         dataParsed.forEach(element => {
             if(element.title.toLowerCase() === key.toLowerCase() || element.description.toLowerCase() === key.toLowerCase()|| element.category.toLowerCase() === key.toLowerCase() ){
-                    newList.push(element)
+                newList.push(element)
             }
         });
         res.status(200).json(newList);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             mensaje: 'server error'
         });
@@ -73,6 +76,7 @@ const listMostWantedProduct = (req, res) => {
         }
         res.status(200).json(dataToShow);
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             mensaje: 'Server error'
         });
@@ -117,9 +121,7 @@ const createProduct = (req, res) => {
         fs.writeFileSync(process.env.RUTA_DB_PRODUCT, JSON.stringify(dataParsed));
         res.status(201).json({ nuevoProducto });
     } catch (error) {
-        res.status(400).json({
-            mensaje: 'Bad request'
-        });
+        console.log(error);
         res.status(500).json({
             mensaje: 'Server error'
         });

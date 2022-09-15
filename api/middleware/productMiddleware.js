@@ -1,11 +1,10 @@
-const e = require('express');
 const fs = require('fs');
 
 const verifyCreateEdit = (req,res,next) => {
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
-        const { title, price,category, mostwanted} = req.body;// desestructurar
+        const { title, price,category, mostwanted} = req.body;
         let proveTitle = dataParsed.find( dataParsed => dataParsed.title === title);
         if(proveTitle = dataParsed.find( dataParsed => dataParsed.title === title)) return res.status(400).json({msg: 'Producto ya ingresado'});
         else{

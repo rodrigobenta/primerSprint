@@ -1,6 +1,5 @@
 const fs = require('fs');
 
-
 const listPictures = (req, res) => {
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
@@ -120,6 +119,7 @@ const deletePicture = (req, res) => {
             mensaje:  oldData
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             mensaje: 'Server error'
         });

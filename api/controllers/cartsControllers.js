@@ -1,7 +1,6 @@
 const fs = require("fs");
 const direcionBaseUsuarios= process.env.RUTA_DB_USER;
 
-
 function getDataU(direccion){
     try {
         let data = fs.readFileSync(direccion, 'utf-8');
@@ -12,24 +11,21 @@ function getDataU(direccion){
     }
 }
 
-
 function getCart(usuarioID){
-
     try {
         let totalUsuarios = getDataU(direcionBaseUsuarios);
         let usuario= totalUsuarios.find((u)=> u.id === usuarioID);
-
         let carrito = usuario.cart;
     return carrito;
     } catch (error) {
         res.status(500).json({msg: 'Server Error'});
     }
-}//getcart
+}
+
 const cartOfId = (req, res) => {
     try {
         let data = fs.readFileSync(process.env.RUTA_DB_PRODUCT, 'utf-8');
         let dataParsed = JSON.parse(data);
-
         let id = Number(req.params.id);
         let usuarios = getDataU(direcionBaseUsuarios);
         let existe= false;
@@ -47,8 +43,6 @@ const cartOfId = (req, res) => {
                         obj['quantity'] = el.quantity;
                         cartObjects.push(obj);
                     })
-                    
-                    console.log(cartObjects);
                 res.status(200).json({
                     Carrito: cartObjects
                 });
