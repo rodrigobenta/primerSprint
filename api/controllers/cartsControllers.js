@@ -1,4 +1,5 @@
 const fs = require("fs");
+const { restart } = require("nodemon");
 
 //direccion
 const direcionBaseUsuarios= process.env.RUTA_DB_USER;
@@ -40,6 +41,7 @@ const cartOfId = (req, res) => {
         let usuarios = getDataU(direcionBaseUsuarios);
         let existe= false;
         let carrito;
+        if(usuarios.find(usuarios => usuarios.id === id)){
         usuarios.forEach(element => {
             if(element.id == id){
                 existe = true;
@@ -59,7 +61,9 @@ const cartOfId = (req, res) => {
                     Carrito: cartObjects
                 });
             }
-        });              
+        });
+    }
+    else return res.status(404).json({msg: 'Usuario no encontrado'});              
 
     } catch (error) {
         res.status(500).json({Mensaje: "Server error"});
